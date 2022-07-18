@@ -1,104 +1,18 @@
-import { useState } from 'react'
 import { Tab } from '@headlessui/react'
 import {classNames} from "~/utils/utils";
-import {useSetRecoilState} from "recoil";
-import {Buy, Tlauncher} from "~/state/states";
-
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {Buy, Items} from "~/state/states";
 
 
 export default function Tabs() {
     const setOpen = useSetRecoilState(Buy);
-    let [categories] = useState({
-        Mega: [
-            {
-                id: 1,
-                title: 'Does drinking coffee make you smarter?',
-                date: '5h ago',
-                commentCount: 5,
-                shareCount: 2,
-            },
-        ],
-        Creative: [
-            {
-                id: 1,
-                title: 'Is tech making coffee better or worse?',
-                date: 'Jan 7',
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: 'The most innovative things happening in coffee',
-                date: 'Mar 19',
-                commentCount: 24,
-                shareCount: 12,
-            },
-            {
-                id: 1,
-                title: 'Is tech making coffee better or worse?',
-                date: 'Jan 7',
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: 'The most innovative things happening in coffee',
-                date: 'Mar 19',
-                commentCount: 24,
-                shareCount: 12,
-            },
-            {
-                id: 1,
-                title: 'Is tech making coffee better or worse?',
-                date: 'Jan 7',
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: 'The most innovative things happening in coffee',
-                date: 'Mar 19',
-                commentCount: 24,
-                shareCount: 12,
-            },
-            {
-                id: 1,
-                title: 'Is tech making coffee better or worse?',
-                date: 'Jan 7',
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: 'The most innovative things happening in coffee',
-                date: 'Mar 19',
-                commentCount: 24,
-                shareCount: 12,
-            },
-        ],
-        Tituls: [
-            {
-                id: 1,
-                title: 'Ask Me Anything: 10 answers to your questions about coffee',
-                date: '2d ago',
-                commentCount: 9,
-                shareCount: 5,
-            },
-            {
-                id: 2,
-                title: "The worst advice we've ever heard about coffee",
-                date: '4d ago',
-                commentCount: 1,
-                shareCount: 2,
-            },
-        ],
-    })
-
+    const items = useRecoilValue(Items);
+    console.log(items)
     return (
         <div className="w-full px-2 py-16 sm:px-0">
             <Tab.Group>
                 <Tab.List className="flex space-x-1 p-1">
-                    {Object.keys(categories).map((category) => (
+                    {Object.keys(items).map((category) => (
                         <Tab
                             key={category}
                             className={({ selected }) =>
@@ -116,7 +30,7 @@ export default function Tabs() {
                     ))}
                 </Tab.List>
                 <Tab.Panels className="container my-12 mx-auto px-4 md:px-12">
-                    {Object.values(categories).map((posts, idx) => (
+                    {Object.values(items).map((posts, idx) => (
                         <Tab.Panel
                             key={idx}
                             className={classNames(

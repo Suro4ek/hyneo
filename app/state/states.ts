@@ -14,3 +14,7 @@ export const Buy = atom({
     key: 'byt',
     default: false,
 });
+
+export const Items = atom({
+    key: 'items'
+})

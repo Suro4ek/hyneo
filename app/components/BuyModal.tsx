@@ -43,13 +43,13 @@ const BuyModal = () => {
                                     Покупка привелегии
                                 </Dialog.Title>
                                 <div className="flex">
-                                    <div className="w-1/3 text-lg">
+                                    <div className="w-2/4 text-lg">
                                         Описание
                                         <div className="mt-2 text-gray-400">
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                                         </div>
                                     </div>
-                                    <div className="w-2/3">
+                                    <div className="w-2/4">
                                         <div className="flex flex-row justify-between">
                                             <div className="w-1/2 mr-4">
                                                 <label htmlFor="first_name"

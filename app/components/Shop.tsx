@@ -1,6 +1,11 @@
+import { useSetRecoilState } from "recoil";
 import Tabs from "~/components/Tabs";
+import { Items } from "~/state/states";
 
-const Shop = () => {
+const Shop = ({items}) => {
+    const setItems = useSetRecoilState(Items);
+    setItems(items)
+
     return(
         <div className="container mx-auto mt-24" id="shop">
             <div className="box-border">

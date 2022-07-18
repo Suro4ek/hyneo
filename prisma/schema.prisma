@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category{
+   id        Int      @id @default(autoincrement())
+   name      String   @unique
+   active    Boolean
+   items     Item[]
+}
+
+model Item{
+    id         Int      @id @default(autoincrement())
+    name       String   @unique
+    price      Int
+    fake_price Int
+    doplata    Boolean
+    active     Boolean
+    categoryId Int
+    category   Category  @relation(fields: [categoryId], references: [id])
+    order      Order[]
+}
+
+model Order{
+    Id        Int      @id @default(autoincrement())
+    username  String   
+    status    String   @default("pending")
+    itemId    Int  
+    Item      Item     @relation(fields: [itemId], references: [id])
+    summa     Int     
+    method    String
+    dateIssue DateTime 
+}
+
+model User {
+  id    String @id @default(cuid())
+  username String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  password Password?
+}
+
+model Password {
+  hash String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
