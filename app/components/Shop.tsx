@@ -4,7 +4,7 @@ import { Items } from "~/state/states";
 
 const Shop = ({items}) => {
     const setItems = useSetRecoilState(Items);
-    setItems(items)
+    setItems(items.categories)
 
     return(
         <div className="container mx-auto mt-24" id="shop">

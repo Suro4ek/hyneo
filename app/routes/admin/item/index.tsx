@@ -1,6 +1,16 @@
-import { Link } from "@remix-run/react";
+import {Link, useLoaderData} from "@remix-run/react";
+import {json, LoaderFunction} from "@remix-run/node";
+import {getCategories} from "~/models/category.server";
+import {getItems} from "~/models/item.server";
+export const loader: LoaderFunction = async ({ request }) => {
+    const items = await getItems();
+    return json({ items });
+}
+
 
 const ItemPage = () => {
+    const items = useLoaderData().items;
+    console.log(items)
     return(
         <div className="overflow-x-auto relative shadow-md">
         <div className="grid place-items-center ">
@@ -41,7 +51,36 @@ const ItemPage = () => {
                 </tr>
             </thead>
             <tbody>
-
+            {
+                items.map((item, index:number) => (
+                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td className="py-4 px-6">
+                            {item.id}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.name}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.price}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.fake_price}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.doplata ? "Да" : "Нет"}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.category !== null ? item.category.name : "Нет"}
+                        </td>
+                        <td className="py-4 px-6">
+                            {item.active ? "Активная" : "Неактивная"}
+                        </td>
+                        <td className="py-4 px-6">
+                            <Link to={`/admin/item/${item.id}`} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Редактировать</Link>
+                        </td>
+                    </tr>
+                ))
+            }
             </tbody>
         </table>
     </div>

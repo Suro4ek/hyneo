@@ -6,6 +6,14 @@ export async function getCategories() {
     return prisma.category.findMany();
 }
 
+export async function getCategoriesByItems() {
+    return prisma.category.findMany({
+        include: {
+            items: true,
+        }
+    });
+}
+
 export async function getCategoryByName(name: string) {
     return prisma.category.findFirst({
         where: {

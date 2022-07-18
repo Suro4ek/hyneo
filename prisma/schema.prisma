@@ -18,15 +18,16 @@ model Category{
 }
 
 model Item{
-    id         Int      @id @default(autoincrement())
-    name       String   @unique
-    price      Int
-    fake_price Int
-    doplata    Boolean
-    active     Boolean
-    categoryId Int
-    category   Category  @relation(fields: [categoryId], references: [id])
-    order      Order[]
+    id          Int      @id @default(autoincrement())
+    name        String   @unique
+    description String
+    price       Int
+    fake_price  Int
+    doplata     Boolean
+    active      Boolean
+    categoryId  Int?
+    category    Category?  @relation(fields: [categoryId], references: [id])
+    order       Order[]
 }
 
 model Order{

@@ -9,43 +9,11 @@ import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Items } from "~/state/states";
 import { prisma, PrismaClient } from "@prisma/client";
-import { getCategories } from "~/models/category.server";
+import {getCategories, getCategoriesByItems} from "~/models/category.server";
 
 export const loader: LoaderFunction = async () => {
-  const categories = await getCategories();
-  console.log(categories)
-  return {
-      Mega: [
-          {
-              id: 1,
-              title: 'Is tech making coffee better or worse?',
-          },
-          {
-            id: 1,
-            title: 'Is tech making coffee better or worse?',
-        },
-      ],
-      Creative: [
-          {
-              id: 1,
-              title: 'Is tech making coffee better or worse?',
-          },
-          {
-            id: 1,
-            title: 'Is tech making coffee better or worse?',
-        },
-      ],
-      Tituls: [
-          {
-              id: 1,
-              title: 'Is tech making coffee better or worse?',
-          },
-          {
-            id: 1,
-            title: 'Is tech making coffee better or worse?',
-        },
-      ],
-  };
+  const categories = await getCategoriesByItems();
+  return {categories};
 };
 
 
