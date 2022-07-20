@@ -3,7 +3,10 @@ import Tabs from "~/components/Tabs";
 import { Items, Methods } from "~/state/states";
 
 const Shop = ({loads}:any) => {
-
+    const setItems = useSetRecoilState(Items);
+    setItems(loads.categories);
+    const methods = useSetRecoilState(Methods);
+    methods(loads.methods);
 
     return(
         <div className="container mx-auto mt-24" id="shop">
