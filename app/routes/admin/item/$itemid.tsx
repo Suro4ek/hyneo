@@ -1,9 +1,9 @@
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import React from "react";
-import {getCategories, getCategoryById, getCategoryByName, UpdateCategory} from "~/models/category.server";
+import {getCategories} from "~/models/category.server";
 import ListBox from "~/components/admin/ListBox";
-import {createItem, getItemById, updateItem} from "~/models/item.server";
+import {getItemById, updateItem} from "~/models/item.server";
+import InputLabel from "~/components/admin/InputLabel";
 
 export const loader :LoaderFunction = async ({request, params}) => {
     const itemId = params.itemid;
@@ -87,117 +87,17 @@ const ItemEdit = () => {
     const item = data.body;
     const categories = data.categories;
     const actionData = useActionData() as ActionData;
-    const nameRef = React.useRef<HTMLInputElement>(null);
-    const priceRef = React.useRef<HTMLInputElement>(null);
-    const fakePriceReft = React.useRef<HTMLInputElement>(null);
-    const descriptionRef = React.useRef<HTMLInputElement>(null);
 
-
-    React.useEffect(() => {
-        if (actionData?.errors?.name) {
-            nameRef.current?.focus();
-        }else if(actionData?.errors?.price){
-            priceRef.current?.focus();
-        }else if(actionData?.errors?.fake_price){
-            fakePriceReft.current?.focus();
-        }else if(actionData?.errors?.description){
-            descriptionRef.current?.focus();
-        }
-    }, [actionData]);
 
     return (
         <Form method="post">
             <div className="container mx-auto">
                 <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление товара</h1>
-                <div className="mb-6">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Название</label>
-                    <input
-                        ref={nameRef}
-                        id="name"
-                        required
-                        autoFocus={true}
-                        defaultValue={item.name}
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="name-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.name && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.name}
-                        </div>
-                    )}
-
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Описание</label>
-                    <input
-                        ref={descriptionRef}
-                        id="description"
-                        required
-                        autoFocus={true}
-                        defaultValue={item.description}
-                        name="description"
-                        type="text"
-                        autoComplete="description"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="description-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.description && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.description}
-                        </div>
-                    )}
-
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Стоимость</label>
-                    <input
-                        ref={priceRef}
-                        id="price"
-                        required
-                        autoFocus={true}
-                        defaultValue={item.price}
-                        name="price"
-                        type="text"
-                        autoComplete="price"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="price-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.price && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.price}
-                        </div>
-                    )}
-
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="fake_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cтоимость без скидки</label>
-                    <input
-                        ref={fakePriceReft}
-                        id="fake_price"
-                        required
-                        autoFocus={true}
-                        defaultValue={item.fake_price}
-                        name="fake_price"
-                        type="text"
-                        autoComplete="fake_price"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="fake_price-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.fake_price && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.fake_price}
-                        </div>
-                    )}
-
-                </div>
-                <label htmlFor="fake_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
+                <InputLabel actionData={actionData} defaultvalue={item.name} value={'name'} name={"Название"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={item.description} value={'description'} name={"Описание"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={item.price} value={'price'} name={"Стоимость"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={item.fake_price} value={'fake_price'} name={"Cтоимость без скидки"} type="text"/>
+                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
                 <ListBox lists={categories} def={item.category !== null ? categories.filter((category) => category.id === item.category.id)[0] : null} name_value="category_id"/>
                 <div className="flex items-center justify-center mt-8">
                     <div className="flex items-center">

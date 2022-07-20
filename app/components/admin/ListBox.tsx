@@ -4,7 +4,7 @@ import {HiSelector} from "react-icons/hi";
 import {AiOutlineCheck} from "react-icons/ai";
 
 
-const ListBox = ({lists, def, name_value}) => {
+const ListBox = ({lists, def, name_value}:{lists: any, def: any, name_value: string}) => {
     const [selected, setSelected] = useState(def)
     return(
         <>
@@ -26,7 +26,7 @@ const ListBox = ({lists, def, name_value}) => {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-50 dark:bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-50 dark:bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {lists.map((person, personIdx) => (
                                 <Listbox.Option
                                     key={personIdx}

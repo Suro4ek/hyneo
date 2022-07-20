@@ -61,6 +61,7 @@ model Password {
 model Method {
     id         Int       @id @default(autoincrement())
     name       String    @unique
+    title      String
     methodkey  MethodKey?
     isActive   Boolean   @default(true)
 }
@@ -75,8 +76,10 @@ model MethodKey {
 
 model Server {
       id        Int      @id @default(autoincrement())
+      name      String
       ip        String   
       port      String
       password  String
+      active    Boolean
       Item      Item[]
 }

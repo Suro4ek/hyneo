@@ -1,10 +1,11 @@
-import {Form, useActionData, useLoaderData} from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import React from "react";
-import {createCategory, getCategories, getCategoryByName} from "~/models/category.server";
+import { getCategoriesActive } from "~/models/category.server";
 import ListBox from "~/components/admin/ListBox";
-import {createItem} from "~/models/item.server";
+import { createItem } from "~/models/item.server";
+import InputLabel from "~/components/admin/InputLabel";
+import { getServersActive } from "~/models/servers.server";
 
 interface ActionData {
     errors?: {
@@ -12,14 +13,18 @@ interface ActionData {
         price?: string;
         fake_price?: string;
         description?: string;
+        category_id?: string;
+        server_id?: string;
+        command?: string;
     };
 }
 
-export const loader : LoaderFunction = async ({
+export const loader: LoaderFunction = async ({
     request,
 }) => {
-    const categories = await getCategories();
-    return json(categories)
+    const categories = await getCategoriesActive();
+    const servers = await getServersActive();
+    return { categories, servers }
 }
 
 export const action: ActionFunction = async ({
@@ -28,10 +33,12 @@ export const action: ActionFunction = async ({
     const formData = await request.formData();
     const name = formData.get("name");
     const active = formData.get("active");
-    const description = formData.get("description") as string;
-    const price = parseInt(formData.get("price") as string);
-    const fake_price = parseInt(formData.get("fake_price") as string);
-    const categoryId = parseInt(formData.get("category_id") as string);
+    const description = formData.get("description");
+    const price = formData.get("price");
+    const command = formData.get("command");
+    const fake_price = formData.get("fake_price");
+    const categoryId = formData.get("category_id");
+    const serverId = formData.get("server_id");
     const doplata = formData.get("doplata");
     if (typeof name !== "string") {
         return json<ActionData>(
@@ -39,145 +46,112 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-
-    if(name.length < 4){
+    if (typeof command != "string") {
         return json<ActionData>(
-            { errors: { name: "Имя слишком короткое" } },
+            { errors: { command: "Команда не задана" } },
             { status: 400 }
         );
     }
-    if(price === 0) {
+    if(typeof price !== "string"){
         return json<ActionData>(
             { errors: { price: "Цена не задана" } },
             { status: 400 }
         );
     }
-    if(fake_price === 0) {
+    if(typeof fake_price !== "string"){
         return json<ActionData>(
             { errors: { fake_price: "Цена не задана" } },
             { status: 400 }
         );
     }
-    if(!categoryId){
-        await createItem(name, description, price, fake_price, 0, active === "on", doplata === "on");
-    }else{
-        await createItem(name, description, price, fake_price, categoryId, active === "on", doplata === "on");
+    if(typeof description !== "string"){
+        return json<ActionData>(
+            { errors: { description: "Описание не задано" } },
+            { status: 400 }
+        );
     }
+    if(typeof categoryId !== "string"){
+        return json<ActionData>(
+            { errors: { category_id: "Категория не задана" } },
+            { status: 400 }
+        );
+    }
+    if(typeof serverId !== "string"){
+        return json<ActionData>(
+            { errors: { server_id: "Сервер не задан" } },
+            { status: 400 }
+        );
+    } 
+    const priceInt = parseInt(price || "0");
+    const fake_priceInt = parseInt(fake_price || "0");
+    const categoryIdInt = parseInt(categoryId || "0");
+    const serverIdInt = parseInt(serverId || "0");
+    if (name.length < 4) {
+        return json<ActionData>(
+            { errors: { name: "Имя слишком короткое" } },
+            { status: 400 }
+        );
+    }
+    if (priceInt === 0 || isNaN(priceInt)) {
+        return json<ActionData>(
+            { errors: { price: "Цена не задана" } },
+            { status: 400 }
+        );
+    }
+    if (fake_priceInt === 0 || isNaN(fake_priceInt)) {
+        return json<ActionData>(
+            { errors: { fake_price: "Цена не задана" } },
+            { status: 400 }
+        );
+    }
+    if (categoryIdInt == 0 || isNaN(categoryIdInt)) {
+        return json<ActionData>(
+            { errors: { category_id: "Категория не задана" } },
+            { status: 400 }
+        );
+    }
+    if (serverIdInt == 0 || isNaN(serverIdInt)) {
+        return json<ActionData>(
+            { errors: { server_id: "Сервер не задан" } },
+            { status: 400 }
+        );
+    }
+    await createItem(name, description, command, priceInt, fake_priceInt, categoryIdInt,serverIdInt, active === "on", doplata === "on");
 
     return redirect("/admin/item");
 };
 
 const AddItem = () => {
-    const categories = useLoaderData();
+    const data = useLoaderData();
     const actionData = useActionData() as ActionData;
-    const nameRef = React.useRef<HTMLInputElement>(null);
-    const priceRef = React.useRef<HTMLInputElement>(null);
-    const fakePriceReft = React.useRef<HTMLInputElement>(null);
-    const descriptionRef = React.useRef<HTMLInputElement>(null);
-
-
-    React.useEffect(() => {
-        if (actionData?.errors?.name) {
-            nameRef.current?.focus();
-        }else if(actionData?.errors?.price){
-            priceRef.current?.focus();
-        }else if(actionData?.errors?.fake_price){
-            fakePriceReft.current?.focus();
-        }else if(actionData?.errors?.description){
-            descriptionRef.current?.focus();
-        }
-    }, [actionData]);
 
     return (
         <Form method="post">
             <div className="container mx-auto">
                 <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление товара</h1>
-                <div className="mb-6">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Название</label>
-                    <input
-                        ref={nameRef}
-                        id="name"
-                        required
-                        autoFocus={true}
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="name-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.name && (
+                <InputLabel actionData={actionData} defaultvalue={""} value={'name'} name={"Название"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'description'} name={"Описание"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'price'} name={"Стоимость"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'fake_price'} name={"Cтоимость без скидки"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'command'} name={"Команда"} type="text" />
+                <div className="mt-6">
+                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
+                    <ListBox lists={data.categories} def={null} name_value="category_id" />
+                    {actionData?.errors?.category_id && (
                         <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.name}
+                            {actionData?.errors.category_id}
                         </div>
                     )}
-
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Описание</label>
-                    <input
-                        ref={descriptionRef}
-                        id="description"
-                        required
-                        autoFocus={true}
-                        name="description"
-                        type="text"
-                        autoComplete="description"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="description-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.description && (
+                <div className="mt-6">
+                    <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Сервер</label>
+                    <ListBox lists={data.servers} def={null} name_value="server_id" />
+                    {actionData?.errors?.server_id && (
                         <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.description}
+                            {actionData?.errors.server_id}
                         </div>
                     )}
-
                 </div>
-                <div className="mb-6">
-                    <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Стоимость</label>
-                    <input
-                        ref={priceRef}
-                        id="price"
-                        required
-                        autoFocus={true}
-                        name="price"
-                        type="text"
-                        autoComplete="price"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="price-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.price && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.price}
-                        </div>
-                    )}
-
-                </div>
-                <div className="mb-6">
-                    <label htmlFor="fake_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cтоимость без скидки</label>
-                    <input
-                        ref={fakePriceReft}
-                        id="fake_price"
-                        required
-                        autoFocus={true}
-                        name="fake_price"
-                        type="text"
-                        autoComplete="fake_price"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="fake_price-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.fake_price && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.fake_price}
-                        </div>
-                    )}
-
-                </div>
-                <label htmlFor="fake_price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
-                <ListBox lists={categories} def={null} name_value="category_id"/>
                 <div className="flex items-center justify-center mt-8">
                     <div className="flex items-center">
                         <input

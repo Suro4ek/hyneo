@@ -1,7 +1,7 @@
 import {Link, useLoaderData} from "@remix-run/react";
 import {json, LoaderFunction} from "@remix-run/node";
-import {getCategories} from "~/models/category.server";
 import {getItems} from "~/models/item.server";
+
 export const loader: LoaderFunction = async ({ request }) => {
     const items = await getItems();
     return json({ items });

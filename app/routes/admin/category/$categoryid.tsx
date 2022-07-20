@@ -1,6 +1,6 @@
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import React from "react";
+import InputLabel from "~/components/admin/InputLabel";
 import { getCategoryById, getCategoryByName, UpdateCategory } from "~/models/category.server";
 
 export const loader :LoaderFunction = async ({request, params}) => {
@@ -62,42 +62,12 @@ export const action: ActionFunction = async ({
 
 const CategoryEdit = () => {
     const category = useLoaderData().body;
-    console.log(category)
     const actionData = useActionData() as ActionData;
-    const nameRef = React.useRef<HTMLInputElement>(null);
-
-    React.useEffect(() => {
-        if (actionData?.errors?.name) {
-            nameRef.current?.focus();
-        }
-    }, [actionData]);
-
     return (
         <Form method="post">
             <div className="container mx-auto">
                 <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление категории</h1>
-                <div className="mb-6">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Название</label>
-                    <input
-                        ref={nameRef}
-                        id="name"
-                        required
-                        autoFocus={true}
-                        name="name"
-                        type="text"
-                        defaultValue={category.name}
-                        autoComplete="name"
-                        aria-invalid={actionData?.errors?.name ? true : undefined}
-                        aria-describedby="name-error"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    {actionData?.errors?.name && (
-                        <div className="pt-1 text-red-700" id="username-error">
-                            {actionData.errors.name}
-                        </div>
-                    )}
-
-                </div>
+                <InputLabel actionData={actionData} defaultvalue={category.name} value={'name'} name={"Название"} type="text"/>
                 <div className="flex items-center justify-center">
                     <div className="flex items-center">
                         <input

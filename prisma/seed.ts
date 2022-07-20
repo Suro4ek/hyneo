@@ -13,21 +13,22 @@ async function seed() {
 
   const hashedPassword = await bcrypt.hash("supermegaadmin", 10);
 
-  const user = await prisma.user.create({
-    data: {
-      username,
-      password: {
-        create: {
-          hash: hashedPassword,
-        },
-      },
-    },
-  });
+  // const user = await prisma.user.create({
+  //   data: {
+  //     username,
+  //     password: {
+  //       create: {
+  //         hash: hashedPassword,
+  //       },
+  //     },
+  //   },
+  // });
 
   const methodQiwi = await prisma.method.create({
     data: {
       name: "Qiwi",
       isActive: true,
+      title: "QiWi",
       methodkey:{
         connectOrCreate:{
           where:{
@@ -46,10 +47,30 @@ async function seed() {
     data: {
       name: "FreeKassa",
       isActive: true,
+      title: "FreeKassa",
       methodkey:{
         connectOrCreate:{
           where:{
             id: 1
+          },
+          create:{
+            SECRET_KEY: "",
+            PUBLIC_KEY: "",
+          }
+        }
+      }
+    },
+  });
+
+  const getPay = await prisma.method.create({
+    data: {
+      name: "GetPay",
+      isActive: true,
+      title: "GetPay",
+      methodkey:{
+        connectOrCreate:{
+          where:{
+            id: 2
           },
           create:{
             SECRET_KEY: "",

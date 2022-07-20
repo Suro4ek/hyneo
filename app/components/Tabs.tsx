@@ -4,15 +4,14 @@ import {useRecoilValue, useSetRecoilState} from "recoil";
 import {Buy, Items} from "~/state/states";
 
 
-export default function Tabs() {
+export default function Tabs({categories}) {
     const setOpen = useSetRecoilState(Buy);
-    const items = useRecoilValue(Items);
-    console.log(items)
+    console.log(categories)
     return (
         <div className="w-full px-2 py-16 sm:px-0">
             <Tab.Group>
                 <Tab.List className="flex space-x-1 p-1">
-                    {items.map((category) => (
+                    {categories.map((category) => (
                         <Tab
                             key={category}
                             className={({ selected }) =>
@@ -30,7 +29,7 @@ export default function Tabs() {
                     ))}
                 </Tab.List>
                 <Tab.Panels className="container my-12 mx-auto px-4 md:px-12">
-                    {items.map((category) => (
+                    {categories.map((category) => (
                         <Tab.Panel
                             key={category.id}
                             className={classNames(

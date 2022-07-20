@@ -16,5 +16,16 @@ export const Buy = atom({
 });
 
 export const Items = atom({
-    key: 'items'
+    key: 'items',
+    default: []
+})
+
+export const Methods = atom({
+    key: 'methods',
+    default: []
+})
+
+export const State = atom({
+    key: 'state',
+    default: {}
 })
