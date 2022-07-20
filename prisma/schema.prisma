@@ -10,14 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category{
+model Category {
    id        Int      @id @default(autoincrement())
    name      String   @unique
    active    Boolean
    items     Item[]
 }
 
-model Item{
+model Item {
     id          Int      @id @default(autoincrement())
     name        String   @unique
     description String
@@ -26,11 +26,14 @@ model Item{
     doplata     Boolean
     active      Boolean
     categoryId  Int?
-    category    Category?  @relation(fields: [categoryId], references: [id])
+    command     String
+    serverId    Int       
+    Server      Server    @relation(fields: [serverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    category    Category? @relation(fields: [categoryId], references: [id])
     order       Order[]
 }
 
-model Order{
+model Order {
     Id        Int      @id @default(autoincrement())
     username  String   
     status    String   @default("pending")
@@ -42,15 +45,38 @@ model Order{
 }
 
 model User {
-  id    String @id @default(cuid())
-  username String @unique
+  id        String   @id @default(cuid())
+  username  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  password Password?
+  password  Password?
 }
 
 model Password {
-  hash String
+  hash   String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
+}
+
+model Method {
+    id         Int       @id @default(autoincrement())
+    name       String    @unique
+    methodkey  MethodKey?
+    isActive   Boolean   @default(true)
+}
+
+model MethodKey {
+    id         Int      @id @default(autoincrement())
+    SECRET_KEY String
+    PUBLIC_KEY String
+    methodId   Int      @unique
+    method     Method   @relation(fields: [methodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Server {
+      id        Int      @id @default(autoincrement())
+      ip        String   
+      port      String
+      password  String
+      Item      Item[]
 }

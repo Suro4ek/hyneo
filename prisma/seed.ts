@@ -24,6 +24,42 @@ async function seed() {
     },
   });
 
+  const methodQiwi = await prisma.method.create({
+    data: {
+      name: "Qiwi",
+      isActive: true,
+      methodkey:{
+        connectOrCreate:{
+          where:{
+            id: 0
+          },
+          create:{
+            SECRET_KEY: "",
+            PUBLIC_KEY: "",
+          }
+        }
+      }
+    },
+  });
+
+  const methodKassa = await prisma.method.create({
+    data: {
+      name: "FreeKassa",
+      isActive: true,
+      methodkey:{
+        connectOrCreate:{
+          where:{
+            id: 1
+          },
+          create:{
+            SECRET_KEY: "",
+            PUBLIC_KEY: "",
+          }
+        }
+      }
+    },
+  });
+
 
   console.log(`Database has been seeded. 🌱`);
 }
