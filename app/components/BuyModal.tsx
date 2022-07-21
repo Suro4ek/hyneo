@@ -1,13 +1,16 @@
-import {useRecoilState} from "recoil";
-import {Buy} from "~/state/states";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {Buy, BuyItem} from "~/state/states";
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
 import {IoCloseOutline} from "react-icons/io5";
 import BuyMethod from "~/components/BuyMethod";
+import { classNames } from "~/utils/utils";
+import { Form, useFetcher } from "@remix-run/react";
 
 const BuyModal = () => {
+    const promo = useFetcher();
+    const item = useRecoilValue(BuyItem);
     const [isOpen, setOpen] = useRecoilState(Buy);
-
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
@@ -46,34 +49,39 @@ const BuyModal = () => {
                                     <div className="w-2/4 text-lg">
                                         Описание
                                         <div className="mt-2 text-gray-400">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            {item.description}
                                         </div>
                                     </div>
                                     <div className="w-2/4">
+                                        <Form action="/callback/buy" method="post">
                                         <div className="flex flex-row justify-between">
                                             <div className="w-1/2 mr-4">
                                                 <label htmlFor="first_name"
                                                        className="block mb-2 text-lg font-medium text-gray-900">Никнейм</label>
                                                 <input type="text" id="first_name"
                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                       placeholder="Введите никнейм" required/>
+                                                       placeholder="Введите никнейм" required name="name"/>
                                             </div>
-                                            <div className="w-1/2">
-                                                <label htmlFor="first_name"
-                                                       className="block mb-2 text-lg font-medium text-gray-900">
-                                                    Промокод</label>
-                                                <input type="text" id="first_name"
-                                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                       placeholder="Введите промокод" required/>
-                                            </div>
+                                            <Form method="post" action="/callback/promo">
+                                                <div className="w-full">
+                                                    <label htmlFor="first_name"
+                                                        className="block mb-2 text-lg font-medium text-gray-900">
+                                                        Промокод</label>
+                                                    <input type="text" id="first_name"
+                                                        className={classNames("bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5", promo.data?.errors ? "border-red-500 ring-red-500" : "focus:ring-blue-500 focus:border-blue-500")}
+                                                        placeholder="Введите промокод" required name="promo" onChange={(e) => promo.submit(e.target.form)}/>
+                                                </div>
+                                                {promo.data?.errors && <div className="text-red-500 text-sm">{promo.data.errors.promo}</div>}
+                                            </Form>
                                         </div>
                                         <BuyMethod/>
+                                        <input name="item_id" hidden value={item.id}/>
                                         <div>
                                             <div className="flex flex-row justify-center text-lg items-center">
                                                 <div className="mr-4 mb-2">
-                                                    299р
+                                                    {item.price} руб
                                                 </div>
-                                                <button type="button"
+                                                <button type="submit"
                                                         className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2 mb-2">
                                                     <svg className="mr-2 -ml-1 w-4 h-4" aria-hidden="true"
                                                          focusable="false" data-prefix="fab" data-icon="bitcoin"
@@ -86,6 +94,7 @@ const BuyModal = () => {
                                                 </button>
                                             </div>
                                         </div>
+                                        </Form>
                                     </div>
                                 </div>
                                     <button

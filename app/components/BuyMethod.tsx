@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
+import { useMethods } from '~/utils/utils';
 
 const methods = [
     {
@@ -14,13 +15,15 @@ const methods = [
 ]
 
 export default function BuyMethod() {
+    const methods = useMethods();
     const [selected, setSelected] = useState(methods[0])
 
     return (
         <div className="w-full px-4 py-10">
             <div className="mx-auto w-full">
+                <input hidden value={selected == null ? -1 : selected.id} name="method_id"/>
                 <RadioGroup value={selected} onChange={setSelected}>
-                    <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
+                    <RadioGroup.Label >Методы оплаты</RadioGroup.Label>
                     <div className="space-y-2">
                         {methods.map((plan) => (
                             <RadioGroup.Option

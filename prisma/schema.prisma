@@ -83,3 +83,11 @@ model Server {
       active    Boolean
       Item      Item[]
 }
+
+model Promo {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    active    Boolean
+    count     Int      
+    discount  Int      
+}

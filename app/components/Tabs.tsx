@@ -1,20 +1,22 @@
 import { Tab } from '@headlessui/react'
-import {classNames} from "~/utils/utils";
-import {useRecoilValue, useSetRecoilState} from "recoil";
-import {Buy, Items} from "~/state/states";
+import {classNames, useCategories} from "~/utils/utils";
+import {useSetRecoilState} from "recoil";
+import type { Item } from "~/models/item.server";
+import {Buy, BuyItem} from "~/state/states";
 
 
-export default function Tabs({categories}) {
+export default function Tabs() {
     const setOpen = useSetRecoilState(Buy);
-    const items = useRecoilValue(Items);
-    console.log(categories)
+    const setbuyItem = useSetRecoilState(BuyItem);
+    const items = useCategories();
+    console.log(items)
     return (
         <div className="w-full px-2 py-16 sm:px-0">
             <Tab.Group>
                 <Tab.List className="flex space-x-1 p-1">
                     {items.map((category) => (
                         <Tab
-                            key={category}
+                            key={category.id}
                             className={({ selected }) =>
                                 classNames(
                                     'w-full  py-2.5 text-sm font-medium leading-5 text-blue-700',
@@ -37,8 +39,8 @@ export default function Tabs({categories}) {
                                 'flex flex-wrap mx-1 lg:mx-48 justify-center'
                             )}
                         >
-                            {category.items.map((item) => (
-                                <div className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4 mt-4" >
+                            {category.items.map((item:Item) => (
+                                <div key={item.id} className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4 mt-4" >
                                     <div className="overflow-hidden text-white text-center text-2xl hover:bg-[#rgba(79, 57, 113, 0.51)]" style={{backgroundColor: "rgba(255, 255, 255, 0.05)"}}>
                                         <div className="border-b-2 border-white p-2">
                                             {item.name}
@@ -50,7 +52,12 @@ export default function Tabs({categories}) {
                                             {item.price}<span> {item.fake_price}</span>
                                         </div>
                                         <div className="-pb-12">
-                                            <button className="transition duration-400 ease-in-out w-full hover:bg-[#ffc107]" onClick={() => setOpen(true)}>
+                                            <button className="transition duration-400 ease-in-out w-full hover:bg-[#ffc107]" onClick={() => 
+                                                {
+                                                    setbuyItem(item);
+                                                    setOpen(true);   
+                                                }
+                                                }>
                                                 Купить
                                             </button>
                                         </div>

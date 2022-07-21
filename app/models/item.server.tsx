@@ -71,6 +71,14 @@ export async function getItems(){
     });
 }
 
+export async function getItemsActive(){
+    return prisma.item.findMany({
+        include:{
+            category: true
+        }
+    });
+}
+
 export async function getItemById(id: number){
     return prisma.item.findFirst({
         where: {

@@ -1,6 +1,8 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
 import type { User } from "~/models/user.server";
+import type { Category } from "~/models/category.server";
+import type { Method } from "~/models/method.server";
 export function classNames(...classes:string[]) {
     return classes.filter(Boolean).join(' ')
 }
@@ -27,7 +29,39 @@ export function useOptionalUser(): User | undefined {
     }
     return data.user;
   }
+
+export function useOptionalCategories(): Category[] | undefined {
+    const data = useMatchesData("routes/index");
+    if (!data || !Array.isArray(data.categories)) {
+      return undefined;
+    }
+    return data.categories;
+}
+
+export function useOptionalMethods(): Method[] | undefined {
+    const data = useMatchesData("routes/index");
+    if (!data || !Array.isArray(data.methods)) {
+      return undefined;
+    }
+    return data.methods;
+}
+
+export function useMethods(): Method[] {
+    const methods = useOptionalMethods();
+    if (!methods) {
+      return [];
+    }
+    return methods;
+}
   
+export function useCategories(): Category[]{
+    const categories = useOptionalCategories();
+    if(!categories){
+        return [];
+    }
+    return categories;
+}
+
   export function useUser(): User {
     const maybeUser = useOptionalUser();
     if (!maybeUser) {

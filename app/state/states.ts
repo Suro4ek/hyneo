@@ -11,21 +11,11 @@ export const Tlauncher = atom({
 });
 
 export const Buy = atom({
-    key: 'byt',
+    key: 'buy',
     default: false,
 });
 
-export const Items = atom({
-    key: 'items',
-    default: []
-})
-
-export const Methods = atom({
-    key: 'methods',
-    default: []
-})
-
-export const State = atom({
-    key: 'state',
-    default: {}
+export const BuyItem = atom({
+    key: 'buyItem',
+    default: {},
 })

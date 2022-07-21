@@ -10,14 +10,36 @@ export async function getCategoriesActive() {
     return prisma.category.findMany({
         where:{
             active: true,
+        },
+        select:{
+            active: false,
         }
     });
 }
 
 export async function getCategoriesByItems() {
     return prisma.category.findMany({
-        include: {
-            items: true,
+        where: {
+            active: true,
+            items:{
+                some:{
+                    active: true,
+                }
+            }
+        },
+        select: {
+            id: true,
+            name: true,
+            items: {
+                select: {
+                    id: true,
+                    name: true,
+                    price: true,
+                    fake_price: true,
+                    description: true,
+
+                },
+            }
         }
     });
 }
