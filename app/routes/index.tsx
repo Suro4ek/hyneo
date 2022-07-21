@@ -6,6 +6,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getCategoriesByItems } from "~/models/category.server";
 import { getMedthods } from "~/models/method.server";
+import { RecoilRoot } from "recoil";
 
 export const loader: LoaderFunction = async () => {
     const categories = await getCategoriesByItems();
@@ -14,16 +15,16 @@ export const loader: LoaderFunction = async () => {
   };
 
 export default function Index() {
-    const data =  useLoaderData();
+    const data = useLoaderData();
 
     return (
-        <>
+        <RecoilRoot>
             <Header />
             <Shop/>
             {/* <Footer/> */}
-            <TLauncherModal />
-            <BuyModal />
-        </>
+            {/* <TLauncherModal />
+            <BuyModal /> */}
+        </RecoilRoot>
 
     );
 }

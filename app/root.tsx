@@ -7,7 +7,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { RecoilRoot } from "recoil";
 import styles from "./styles/app.css"
 
 
@@ -27,19 +26,17 @@ export function links() {
 
 export default function App() {
   return (
-      <RecoilRoot>
-        <html lang="en" >
-        <head>
-          <Meta />
-          <Links />
-        </head>
-        <body style={{ fontFamily: "'Fira Sans Extra Condensed', sans-serif", backgroundImage: "radial-gradient(circle, #0f0c29, #302b63, #24243e)", fontSize: "16px" }}>
+    <html lang="en" >
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body style={{ fontFamily: "'Fira Sans Extra Condensed', sans-serif", backgroundImage: "radial-gradient(circle, #0f0c29, #302b63, #24243e)", fontSize: "16px" }}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        </body>
-        </html>
-      </RecoilRoot>
+      </body>
+    </html>
   );
 }
