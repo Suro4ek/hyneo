@@ -13,16 +13,16 @@ async function seed() {
 
   const hashedPassword = await bcrypt.hash("supermegaadmin", 10);
 
-  // const user = await prisma.user.create({
-  //   data: {
-  //     username,
-  //     password: {
-  //       create: {
-  //         hash: hashedPassword,
-  //       },
-  //     },
-  //   },
-  // });
+  const user = await prisma.user.create({
+    data: {
+      username,
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
+    },
+  });
 
   const methodQiwi = await prisma.method.create({
     data: {
