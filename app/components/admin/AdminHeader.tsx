@@ -2,7 +2,7 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import {AiOutlineClose} from "react-icons/ai";
 import { classNames } from "~/utils/utils";
 import { useState } from "react";
-import { Link, NavLink } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 
 const AdminHeader = () => {

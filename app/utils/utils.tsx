@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import type { User } from "~/models/user.server";
 import type { Category } from "~/models/category.server";
 import type { Method } from "~/models/method.server";
+
 export function classNames(...classes:string[]) {
     return classes.filter(Boolean).join(' ')
 }

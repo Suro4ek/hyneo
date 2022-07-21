@@ -1,7 +1,6 @@
 import { Tab } from '@headlessui/react'
 import {classNames, useCategories} from "~/utils/utils";
 import {useSetRecoilState} from "recoil";
-import type { Item } from "~/models/item.server";
 import {Buy, BuyItem} from "~/state/states";
 
 
@@ -39,7 +38,7 @@ export default function Tabs() {
                                 'flex flex-wrap mx-1 lg:mx-48 justify-center'
                             )}
                         >
-                            {category.items.map((item:Item) => (
+                            {category.items.map((item) => (
                                 <div key={item.id} className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4 mt-4" >
                                     <div className="overflow-hidden text-white text-center text-2xl hover:bg-[#rgba(79, 57, 113, 0.51)]" style={{backgroundColor: "rgba(255, 255, 255, 0.05)"}}>
                                         <div className="border-b-2 border-white p-2">
