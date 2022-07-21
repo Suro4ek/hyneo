@@ -5,7 +5,6 @@ import { TiSocialFacebook } from "react-icons/ti"
 import logotype from "../images/logotype.png"
 import {AiOutlineDown} from "react-icons/ai";
 
-// @ts-ignore
 import { Link } from 'react-scroll'
 import useVideo from "~/hooks/useVideo";
 import HeaderItem from "~/components/HeaderItem";

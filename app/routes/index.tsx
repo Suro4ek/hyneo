@@ -19,7 +19,7 @@ export default function Index() {
 
     return (
         <RecoilRoot>
-            <Header />
+            {/* <Header /> */}
             <Shop/>
             {/* <Footer/> */}
             {/* <TLauncherModal />

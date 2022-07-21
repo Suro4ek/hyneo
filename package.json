@@ -36,6 +36,7 @@
     "@remix-run/eslint-config": "^1.6.5",
     "@types/react": "^17.0.45",
     "@types/react-dom": "^17.0.17",
+    "@types/react-scroll": "^1.8.4",
     "autoprefixer": "^10.4.7",
     "concurrently": "^7.2.2",
     "eslint": "^8.15.0",
