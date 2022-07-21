@@ -26,7 +26,7 @@ export default function Tabs() {
                             }
                         >
                             {category.name}
-                        </Head.ab>
+                        </Head.Tab>
                     ))}
                 </Head.Tab.List>
                 <Head.Tab.Panels className="container my-12 mx-auto px-4 md:px-12">
