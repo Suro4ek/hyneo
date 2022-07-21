@@ -1,8 +1,5 @@
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
-import type { User } from "~/models/user.server";
-import type { Category } from "~/models/category.server";
-import type { Method } from "~/models/method.server";
 
 export function classNames(...classes:string[]) {
     return classes.filter(Boolean).join(' ')
@@ -19,11 +16,11 @@ export function useMatchesData(
     return route?.data;
   }
   
-  function isUser(user: any): user is User {
+  function isUser(user: any) {
     return user && typeof user === "object" && typeof user.email === "string";
   }
   
-export function useOptionalUser(): User | undefined {
+export function useOptionalUser() {
     const data = useMatchesData("root");
     if (!data || !isUser(data.user)) {
       return undefined;
@@ -31,7 +28,7 @@ export function useOptionalUser(): User | undefined {
     return data.user;
   }
 
-export function useOptionalCategories(): Category[] | undefined {
+export function useOptionalCategories() {
     const data = useMatchesData("routes/index");
     if (!data || !Array.isArray(data.categories)) {
       return undefined;
@@ -39,7 +36,7 @@ export function useOptionalCategories(): Category[] | undefined {
     return data.categories;
 }
 
-export function useOptionalMethods(): Method[] | undefined {
+export function useOptionalMethods(){
     const data = useMatchesData("routes/index");
     if (!data || !Array.isArray(data.methods)) {
       return undefined;
@@ -47,7 +44,7 @@ export function useOptionalMethods(): Method[] | undefined {
     return data.methods;
 }
 
-export function useMethods(): Method[] {
+export function useMethods() {
     const methods = useOptionalMethods();
     if (!methods) {
       return [];
@@ -55,7 +52,7 @@ export function useMethods(): Method[] {
     return methods;
 }
   
-export function useCategories(): Category[]{
+export function useCategories(){
     const categories = useOptionalCategories();
     if(!categories){
         return [];
@@ -63,7 +60,7 @@ export function useCategories(): Category[]{
     return categories;
 }
 
-  export function useUser(): User {
+  export function useUser() {
     const maybeUser = useOptionalUser();
     if (!maybeUser) {
       throw new Error(
