@@ -4,7 +4,7 @@ import { GiHammerDrop, GiHelp } from "react-icons/gi"
 import { TiSocialFacebook } from "react-icons/ti"
 import logotype from "../images/logotype.png"
 import {AiOutlineDown} from "react-icons/ai";
-
+import vk from "../images/header/vk.svg"
 import { Link } from 'react-scroll'
 import useVideo from "~/hooks/useVideo";
 import HeaderItem from "~/components/HeaderItem";
@@ -28,7 +28,7 @@ const Header = () => {
                     <HeaderItem to={"https://ban.hyneo.ru"}><GiHammerDrop className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Банлист</span></HeaderItem>
                     <HeaderItem to={"https://vk.me/hyneo"}><GiHelp className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Помощь</span></HeaderItem>
                     <HeaderItem to={"https://forum.hyneo.ru"}><GiHelp className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Форум</span></HeaderItem>
-                    <HeaderItem to={"https://vk.com/hyneo"}><TiSocialFacebook className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Группа
+                    <HeaderItem to={"https://vk.com/hyneo"}><img src={vk} className="white w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Группа
                         ВК</span></HeaderItem>
                 </div>
             </nav>
@@ -36,7 +36,7 @@ const Header = () => {
                 <div className="container mx-auto text-white mt-24">
                     <div>
                         <div className="flex justify-center">
-                            <img src={logotype} className="w-1/3 lg:w-1/6 md:w-1/4"/>
+                            <img src={logotype} className="w-1/3 lg:w-1/6 md:w-1/4" alt={"HyNeo"}/>
                         </div>
                         <div className="flex flex-col">
                             <div className="text-center text-8xl text-[#ffa500] md:text-9xl"

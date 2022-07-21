@@ -12,6 +12,12 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
+    if(promo.length === 0){
+        return json(
+            { discount:  0 },
+            { status: 200 }
+        )
+    }
     const promoDB = await findPromo(promo);
     if(promoDB === null){
         return json(

@@ -2,18 +2,6 @@ import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { useMethods } from '~/utils/utils';
 
-const methods = [
-    {
-        name: 'Qiwi',
-    },
-    {
-        name: 'Картой(Freekassa)',
-    },
-    {
-        name: 'Мобильным платежом',
-    },
-]
-
 export default function BuyMethod() {
     const methods = useMethods();
     const [selected, setSelected] = useState(methods[0])
@@ -73,7 +61,7 @@ export default function BuyMethod() {
     )
 }
 
-function CheckIcon(props) {
+function CheckIcon(props:any) {
     return (
         <svg viewBox="0 0 24 24" fill="none" {...props}>
             <circle cx={12} cy={12} r={12} fill="#fff" opacity="0.2" />
