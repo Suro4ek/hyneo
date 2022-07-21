@@ -19,8 +19,8 @@ export default function Index() {
 
     return (
         <RecoilRoot>
-            {/* <Header /> */}
-            <Shop/>
+            <Header />
+            {/* <Shop/> */}
             {/* <Footer/> */}
             {/* <TLauncherModal />
             <BuyModal /> */}
