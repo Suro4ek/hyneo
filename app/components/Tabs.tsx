@@ -1,4 +1,4 @@
-import { Tab } from '@headlessui/react'
+import * as Head from '@headlessui/react'
 import {classNames, useCategories} from "~/utils/utils";
 // import {useSetRecoilState} from "recoil";
 // import {Buy, BuyItem} from "~/state/states";
@@ -10,10 +10,10 @@ export default function Tabs() {
     const items = useCategories();
     return (
         <div className="w-full px-2 py-16 sm:px-0">
-            <Tab.Group>
-                <Tab.List className="flex space-x-1 p-1">
+            <Head.Tab.Group>
+                <Head.Tab.List className="flex space-x-1 p-1">
                     {items.map((category) => (
-                        <Tab
+                        <Head.Tab
                             key={category.id}
                             className={({ selected }) =>
                                 classNames(
@@ -26,12 +26,12 @@ export default function Tabs() {
                             }
                         >
                             {category.name}
-                        </Tab>
+                        </Head.ab>
                     ))}
-                </Tab.List>
-                <Tab.Panels className="container my-12 mx-auto px-4 md:px-12">
+                </Head.Tab.List>
+                <Head.Tab.Panels className="container my-12 mx-auto px-4 md:px-12">
                     {items.map((category) => (
-                        <Tab.Panel
+                        <Head.Tab.Panel
                             key={category.id}
                             className={classNames(
                                 'flex flex-wrap mx-1 lg:mx-48 justify-center'
@@ -62,10 +62,10 @@ export default function Tabs() {
                                     </div>
                                 </div>
                             ))}
-                        </Tab.Panel>
+                        </Head.Tab.Panel>
                         ))}
-                </Tab.Panels>
-            </Tab.Group>
+                </Head.Tab.Panels>
+            </Head.Tab.Group>
         </div>
     )
 }
