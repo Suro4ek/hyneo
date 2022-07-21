@@ -25,9 +25,6 @@ export function links() {
   ]
 }
 
-
-
-
 export default function App() {
   return (
       <RecoilRoot>
