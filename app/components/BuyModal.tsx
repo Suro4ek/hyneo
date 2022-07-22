@@ -46,10 +46,10 @@ const BuyModal = () => {
                                     Покупка привелегии
                                 </Dialog.Title>
                                 <div className="flex">
-                                    <div className="w-2/4 text-lg">
+                                    <div className="w-2/4 text-lg whitespace-normal">
                                         Описание
-                                        <div className="mt-2 text-gray-400">
-                                            {item.description}
+                                        <div className="mt-2 text-gray-400 ">
+                                            sdsdпарпаррррррррррррррррррррррррррррррррррррррррррррррррр паррррррррррррррррррррррррррррррррррррррррап паррррррррррпарррррррррррррррррррррр <br/> парарпрпрпрпрпрпрпрпрпрпрпрпрпрпрпрпрпр
                                         </div>
                                     </div>
                                     <div className="w-2/4">
