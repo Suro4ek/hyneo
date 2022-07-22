@@ -12,7 +12,8 @@ export async function getCategoriesActive() {
             active: true,
         },
         select:{
-            active: false,
+            active: true,
+            name: true,
         }
     });
 }
