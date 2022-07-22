@@ -1,12 +1,12 @@
 import * as Head from '@headlessui/react'
 import {classNames, useCategories} from "~/utils/utils";
-// import {useSetRecoilState} from "recoil";
-// import {Buy, BuyItem} from "~/state/states";
+import {useSetRecoilState} from "recoil";
+import {Buy, BuyItem} from "~/state/states";
 
 
 export default function Tabs() {
-    // const setOpen = useSetRecoilState(Buy);
-    // const setbuyItem = useSetRecoilState(BuyItem);
+    const setOpen = useSetRecoilState(Buy);
+    const setbuyItem = useSetRecoilState(BuyItem);
     const items = useCategories();
     return (
         <div className="w-full px-2 py-16 sm:px-0">
@@ -52,8 +52,8 @@ export default function Tabs() {
                                         <div className="-pb-12">
                                             <button className="transition duration-400 ease-in-out w-full hover:bg-[#ffc107]" onClick={() => 
                                                 {
-                                                    // setbuyItem(item);
-                                                    // setOpen(true);   
+                                                    setbuyItem(item);
+                                                    setOpen(true);
                                                 }
                                                 }>
                                                 Купить

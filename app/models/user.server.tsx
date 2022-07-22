@@ -1,5 +1,5 @@
 import bcrypt from "@node-rs/bcrypt";
-import { prisma } from "~/db.server";
+import {prisma} from "~/db.server";
 
 export type { User } from "@prisma/client";
 
@@ -13,7 +13,7 @@ export async function getUserByUsername(username: string) {
 
 export async function createUser(username: string, password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
+  return await prisma.user.create({
     data: {
       username,
       password: {
@@ -23,8 +23,6 @@ export async function createUser(username: string, password: string) {
       },
     },
   });
-
-  return user;
 }
 
 export async function deleteUserByUsername(username: string) {
