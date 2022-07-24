@@ -12,6 +12,7 @@ export async function getCategoriesActive() {
             active: true,
         },
         select:{
+            id: true,
             active: true,
             name: true,
         }
@@ -25,6 +26,12 @@ export async function getCategoriesByItems() {
             items:{
                 some:{
                     active: true,
+                    serverId: {
+                        not : null,
+                    },
+                    categoryId: {
+                        not : null,
+                    }
                 }
             }
         },
@@ -84,4 +91,12 @@ export async function UpdateCategory(id: number, name: string, active: boolean) 
     }catch(e){
         return null;
     }
+}
+
+export async function DeleteCategory (id: number) {
+    return prisma.category.delete({
+        where: {
+            id,
+        },
+    });
 }

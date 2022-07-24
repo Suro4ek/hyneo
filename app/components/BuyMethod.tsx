@@ -7,15 +7,15 @@ export default function BuyMethod() {
     const [selected, setSelected] = useState(methods[0])
 
     return (
-        <div className="w-full px-4 py-10">
-            <div className="mx-auto w-full">
+        <div className="w-full py-10">
+            <div className="w-full">
                 <input hidden value={selected == null ? -1 : selected.id} name="method_id"/>
                 <RadioGroup value={selected} onChange={setSelected}>
                     <RadioGroup.Label >Методы оплаты</RadioGroup.Label>
                     <div className="space-y-2">
                         {methods.map((plan) => (
                             <RadioGroup.Option
-                                key={plan.name}
+                                key={plan.title}
                                 value={plan}
                                 className={({ active, checked }) =>
                                     `${
@@ -40,7 +40,7 @@ export default function BuyMethod() {
                                                             checked ? 'text-white' : 'text-gray-900'
                                                         }`}
                                                     >
-                                                        {plan.name}
+                                                        {plan.title}
                                                     </RadioGroup.Label>
                                                 </div>
                                             </div>

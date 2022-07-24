@@ -19,3 +19,8 @@ export const BuyItem = atom({
     key: 'buyItem',
     default: {},
 })
+
+export const PromoCode = atom({
+    key: 'promoCode',
+    default: '',
+})

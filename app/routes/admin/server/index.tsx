@@ -36,6 +36,9 @@ const ItemPage = () => {
                     <th scope="col" className="py-3 px-6">
                         <span className="sr-only">Редактировать</span>
                     </th>
+                    <th scope="col" className="py-3 px-6">
+                        <span className="sr-only">Удалить</span>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -53,6 +56,9 @@ const ItemPage = () => {
                         </td>
                         <td className="py-4 px-6">
                             <Link to={`/admin/server/${server.id}`} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Редактировать</Link>
+                        </td>
+                        <td className="py-4 px-6">
+                            <Link to={`/admin/server/delete/${server.id}`} className="focus:outline-none text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Удалить</Link>
                         </td>
                     </tr>
                 ))

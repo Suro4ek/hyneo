@@ -1,16 +1,37 @@
 import {useRecoilState, useRecoilValue} from "recoil";
-import {Buy, BuyItem} from "~/state/states";
+import {Buy, BuyItem, PromoCode} from "~/state/states";
 import {Dialog, Transition} from "@headlessui/react";
-import {Fragment} from "react";
+import {Fragment, useEffect, useRef} from "react";
 import {IoCloseOutline} from "react-icons/io5";
 import BuyMethod from "~/components/BuyMethod";
 import { classNames } from "~/utils/utils";
-import { Form, useFetcher } from "@remix-run/react";
+import {Form, useActionData, useFetcher} from "@remix-run/react";
+import {Interweave} from "interweave";
+import {ActionFunction, json} from "@remix-run/node";
+import Promo from "~/components/admin/Promo";
+
+
+
+interface ActionData {
+    errors?: {
+        name?: string;
+        method_id?: string;
+        item_id?: string;
+    }
+
+}
 
 const BuyModal = () => {
-    const promo = useFetcher();
     const item = useRecoilValue(BuyItem);
+    const promo = useRecoilValue(PromoCode)
+    const buy = useFetcher();
+    let actionData = buy.data as ActionData;
     const [isOpen, setOpen] = useRecoilState(Buy);
+
+    useEffect(() => {
+        actionData = buy.data as ActionData;
+    },[buy.data]);
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
@@ -49,32 +70,27 @@ const BuyModal = () => {
                                     <div className="w-2/4 text-lg whitespace-normal">
                                         Описание
                                         <div className="mt-2 text-gray-400 ">
-                                            sdsdпарпаррррррррррррррррррррррррррррррррррррррррррррррррр паррррррррррррррррррррррррррррррррррррррррап паррррррррррпарррррррррррррррррррррр <br/> парарпрпрпрпрпрпрпрпрпрпрпрпрпрпрпрпрпр
+                                            <Interweave content={item.description}/>
                                         </div>
                                     </div>
                                     <div className="w-2/4">
-                                        <Form action="/callback/buy" method="post">
-                                        <div className="flex flex-row justify-between">
-                                            <div className="w-1/2 mr-4">
+                                        <div className="w-full mb-4">
+                                            <Promo/>
+                                        </div>
+                                        <buy.Form action="/callback/buy" method="post">
+                                        <div className="flex flex-col justify-between">
+                                            <div className="">
                                                 <label htmlFor="first_name"
                                                        className="block mb-2 text-lg font-medium text-gray-900">Никнейм</label>
                                                 <input type="text" id="first_name"
                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                        placeholder="Введите никнейм" required name="name"/>
+                                                {actionData?.errors?.name && <div className="mx-2 text-red-500 text-sm">s</div>}
                                             </div>
-                                            <Form method="post" action="/callback/promo">
-                                                <div className="w-full">
-                                                    <label htmlFor="first_name"
-                                                        className="block mb-2 text-lg font-medium text-gray-900">
-                                                        Промокод</label>
-                                                    <input type="text" id="first_name"
-                                                        className={classNames("bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5", promo.data?.errors ? "border-red-500 ring-red-500" : "focus:ring-blue-500 focus:border-blue-500")}
-                                                        placeholder="Введите промокод" required name="promo" onChange={(e) => promo.submit(e.target.form)}/>
-                                                </div>
-                                                {promo.data?.errors && <div className="text-red-500 text-sm">{promo.data.errors.promo}</div>}
-                                            </Form>
                                         </div>
+                                        <input name="promo" value={promo} hidden/>
                                         <BuyMethod/>
+                                        {actionData?.errors?.method_id && <div className="mx-2 text-red-500 text-sm">actionData.errors.method_id</div>}
                                         <input name="item_id" hidden value={item.id}/>
                                         <div>
                                             <div className="flex flex-row justify-center text-lg items-center">
@@ -94,7 +110,7 @@ const BuyModal = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                        </Form>
+                                        </buy.Form>
                                     </div>
                                 </div>
                                     <button

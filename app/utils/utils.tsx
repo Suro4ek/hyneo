@@ -44,6 +44,22 @@ export function useOptionalMethods(){
     return data.methods;
 }
 
+export function useOptionalMinecraft(){
+    const data = useMatchesData("routes/index");
+    if (!data) {
+        return undefined;
+    }
+    return data.minecraft;
+}
+
+export function useMinecraft() {
+    const minecraft = useOptionalMinecraft();
+    if (!minecraft) {
+        return {  online: 0, slots:0, max: 1000};
+    }
+    return minecraft;
+}
+
 export function useMethods() {
     const methods = useOptionalMethods();
     if (!methods) {

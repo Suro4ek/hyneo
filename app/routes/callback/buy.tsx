@@ -1,5 +1,5 @@
-import { ActionFunction, json } from "@remix-run/node";
-import { findPromo } from "~/models/promo.server";
+import type { ActionFunction} from "@remix-run/node";
+import { json } from "@remix-run/node";
 
 export const action: ActionFunction = async ({
     request,
@@ -9,13 +9,6 @@ export const action: ActionFunction = async ({
     const name = formData.get("name");
     const method_id = formData.get("method_id");
     const item_id = formData.get("item_id");
-
-    if(typeof promo !== "string"){
-        return json(
-            { errors: { promo: "Промо не задано" } },
-            { status: 400 }
-        );
-    }
 
     if(typeof name !== "string"){
         return json(
@@ -35,17 +28,5 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-    
-    const promoDB = await findPromo(promo);
-    if(promoDB === null){
-        return json(
-            { errors: { promo: "Прококод не найден" } },
-            { status: 400 }
-        );
-    }else{
-        return json(
-            { discount:  promoDB.discount },
-            { status: 200 }
-        )
-    }
+
   };

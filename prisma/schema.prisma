@@ -20,16 +20,16 @@ model Category {
 model Item {
     id          Int      @id @default(autoincrement())
     name        String   @unique
-    description String
+    description String   @db.LongText
     price       Int
     fake_price  Int
     doplata     Boolean
     active      Boolean
     categoryId  Int?
     command     String
-    serverId    Int       
-    Server      Server    @relation(fields: [serverId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    category    Category? @relation(fields: [categoryId], references: [id])
+    serverId    Int?
+    Server      Server?    @relation(fields: [serverId], references: [id], onDelete: SetNull)
+    category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
     order       Order[]
 }
 
@@ -39,7 +39,7 @@ model Order {
     status    String   @default("pending")
     itemId    Int  
     Item      Item     @relation(fields: [itemId], references: [id])
-    summa     Int     
+    summa     Int
     method    String
     dateIssue DateTime 
 }

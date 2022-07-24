@@ -10,10 +10,12 @@ import useVideo from "~/hooks/useVideo";
 import HeaderItem from "~/components/HeaderItem";
 import {useSetRecoilState} from "recoil";
 import {Tlauncher} from "~/state/states";
+import {useMinecraft} from "~/utils/utils";
 
 const Header = () => {
     const {video} = useVideo();
     const setOpen = useSetRecoilState(Tlauncher);
+    const minecraft = useMinecraft();
     return (
         <header className={"w-full"}>
             <div className={"absolute w-full -z-40 "}>
@@ -62,9 +64,9 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="mt-12 md:mt-24 container mx-auto text-white text-lg md:text-xl w-full flex flex-col md:flex-row justify-center items-center text-center">
-                    <div className="w-full md:w-1/3">Всего слотов: 1000</div>
-                    <div className="w-full md:w-1/3">Текущий онлайн: 1000</div>
-                    <div className="w-full md:w-1/3">Максимальный онлайн: 1000</div>
+                    <div className="w-full md:w-1/3">Всего слотов: {minecraft.slots}</div>
+                    <div className="w-full md:w-1/3">Текущий онлайн: {minecraft.online}</div>
+                    <div className="w-full md:w-1/3">Максимальный онлайн:  {minecraft.max}</div>
                 </div>
                 <div className="mt-20 flex  justify-center text-center text-gray-700 transition duration-[1000ms] ease-in-out animate-bounce">
                     <Link to="shop" smooth={true} duration={500}><AiOutlineDown className="w-8 h-8 cursor-pointer "/></Link>

@@ -3,7 +3,7 @@ import { prisma } from "~/db.server";
 export type {Method} from "@prisma/client";
 
 
-export async function getMedthods() {
+export async function getMethods() {
     return prisma.method.findMany(
         {
             where: {
@@ -11,7 +11,7 @@ export async function getMedthods() {
             },
             select: {
                 id: true,
-                name: true,
+                title: true,
             },
         }
     );

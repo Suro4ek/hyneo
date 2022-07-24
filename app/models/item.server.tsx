@@ -26,22 +26,7 @@ export async function createItem(name: string, description: string, command: str
         });
 }
 
-export async function updateItem(id: number,name: string, description: string, price: number, fake_price: number, categoryId: number, active: boolean, doplata: boolean){
-    if(categoryId === 0){
-        return prisma.item.update({
-            where: {
-                id,
-            },
-            data: {
-                name,
-                description,
-                price,
-                fake_price,
-                active: active,
-                doplata: doplata,
-            }
-        });
-    }else{
+export async function updateItem(id: number,name: string, description: string, command: string, price: number, fake_price: number, categoryId: number, serverId: number, active: boolean, doplata: boolean){
         return prisma.item.update({
             where: {
                 id,
@@ -56,17 +41,23 @@ export async function updateItem(id: number,name: string, description: string, p
                         id: categoryId
                     }
                 },
+                Server: {
+                    connect: {
+                        id: serverId
+                    }
+                },
+                command: command,
                 active: active,
                 doplata: doplata,
             }
         });
-    }
 }
 
 export async function getItems(){
     return prisma.item.findMany({
         include:{
-            category: true
+            category: true,
+            Server: true
         }
     });
 }
@@ -85,7 +76,16 @@ export async function getItemById(id: number){
             id
         },
         include:{
-            category: true
+            category: true,
+            Server: true,
+        }
+    });
+}
+
+export async function deleteItem(id: number) {
+    return prisma.item.delete({
+        where: {
+            id
         }
     });
 }

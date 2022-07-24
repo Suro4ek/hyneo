@@ -6,6 +6,8 @@ import ListBox from "~/components/admin/ListBox";
 import { createItem } from "~/models/item.server";
 import InputLabel from "~/components/admin/InputLabel";
 import { getServersActive } from "~/models/servers.server";
+import RichTextEditorClient from "~/components/admin/RichTextEditor.client";
+import React from "react";
 
 interface ActionData {
     errors?: {
@@ -125,12 +127,25 @@ const AddItem = () => {
     const data = useLoaderData();
     const actionData = useActionData() as ActionData;
 
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <Form method="post">
             <div className="container mx-auto">
                 <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление товара</h1>
                 <InputLabel actionData={actionData} defaultvalue={""} value={'name'} name={"Название"} type="text" />
-                <InputLabel actionData={actionData} defaultvalue={""} value={'description'} name={"Описание"} type="text" />
+                <div className="mt-6">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Описание</label>
+                    {mounted ?    <RichTextEditorClient value={''}/>: null}
+                    {actionData?.errors?.description && (
+                        <div className="pt-1 text-red-700" id="username-error">
+                            {actionData?.errors.description}
+                        </div>
+                    )}
+                </div>
                 <InputLabel actionData={actionData} defaultvalue={""} value={'price'} name={"Стоимость"} type="text" />
                 <InputLabel actionData={actionData} defaultvalue={""} value={'fake_price'} name={"Cтоимость без скидки"} type="text" />
                 <InputLabel actionData={actionData} defaultvalue={""} value={'command'} name={"Команда"} type="text" />

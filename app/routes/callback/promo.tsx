@@ -1,11 +1,11 @@
-import { ActionFunction, json } from "@remix-run/node";
+import {ActionFunction, json, LoaderFunction} from "@remix-run/node";
 import { findPromo } from "~/models/promo.server";
 
-export const action: ActionFunction = async ({
+export const loader: LoaderFunction = async ({
     request,
   }) => {
-    const formData = await request.formData();
-    const promo = formData.get("promo");
+    const url = new URL(request.url);
+    const promo = url.searchParams.get("promo");
     if(typeof promo !== "string"){
         return json(
             { errors: { promo: "Промо не задано" } },

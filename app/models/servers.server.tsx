@@ -60,3 +60,11 @@ export async function CreateServer(name: string, ip: string, port: string, passw
         }
     })
 }
+
+export async function deleteServer(id: number){
+    return prisma.server.delete({
+        where:{
+            id: id
+        }
+    })
+}
