@@ -27,6 +27,10 @@ export default function Index() {
              <Footer/>
             <TLauncherModal />
             <BuyModal />
+            {"<!-- GP_E4cb5ST9kUWy2jEhpnXSXZaELNXCVQps; -->"}
+            <a href="https://freekassa.ru/" target="_blank" rel="noopener noreferrer">
+                <img src="https://cdn.freekassa.ru/banners/big-dark-1.png" title="Прием платежей на сайте"/>
+            </a>
         </RecoilRoot>
 
     );

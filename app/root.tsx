@@ -30,6 +30,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        
       </head>
       <body style={{ fontFamily: "'Fira Sans Extra Condensed', sans-serif", backgroundImage: "radial-gradient(circle, #0f0c29, #302b63, #24243e)", fontSize: "16px" }}>
         <Outlet />
