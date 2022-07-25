@@ -9,7 +9,7 @@ const Promo = () => {
     const setPromocode = useSetRecoilState(PromoCode);
     useEffect(() => {
         if (promo.data) {
-            setPromocode(promo.data.promocode);
+            setPromocode({promo: promo.data.promocode, discount: promo.data.discount});
         }
     }, [promo.data])
     return(
@@ -26,7 +26,7 @@ const Promo = () => {
                     </div>
                 </div>
                 {promo.data?.errors && <div className="mx-2 text-red-500 text-sm">{promo.data.errors.promo}</div>}
-                {promo.data?.ok === "done" && <div className="mx-2 text-green-500 text-sm">Промокод принят</div>}
+                {promo.data?.promocode && <div className="mx-2 text-green-500 text-sm">Промокод принят</div>}
                 <div >
                     <button disabled={promo.state === "submitting"} name="action" value="promo"
                             className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg ml-2 text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40">

@@ -45,7 +45,8 @@ export async function getCategoriesByItems() {
                     price: true,
                     fake_price: true,
                     description: true,
-
+                    doplata: true,
+                    imageSrc: true,
                 },
             }
         }

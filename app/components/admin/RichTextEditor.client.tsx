@@ -1,4 +1,4 @@
-import React, {useState, useRef, useMemo, useEffect} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import JoditEditor from "jodit-react";
 
 const RichTextEditorClient = ({value}) => {

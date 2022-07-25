@@ -1,28 +1,30 @@
 import { ActionFunction, json, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import InputLabel from "~/components/admin/InputLabel";
-import { getCategoryById, UpdateCategory } from "~/models/category.server";
+import { getMethod, updateMethod } from "~/models/method.server";
 
 export const loader :LoaderFunction = async ({request, params}) => {
-    const categoryId = params.categoryid;
+    const methodId = params.methodid;
     //sting to int
-    const categoryIdInt = parseInt(categoryId || "0");
-    const category = await getCategoryById(categoryIdInt);
-    if (!category) {
+    const methodIdInt = parseInt(methodId || "0");
+    const method = await getMethod(methodIdInt);
+    if (!method) {
         return {
             status: 404,
-            body: "Category not found",
+            body: "Method not found",
         };
     }
     return {
         status: 200,
-        body: category,
+        body: method,
     };
 }
 
 interface ActionData {
     errors?: {
         name?: string;
+        public?: string;
+        secret?: string;
     };
 }
 
@@ -31,6 +33,8 @@ export const action: ActionFunction = async ({
 }) => {
     const formData = await request.formData();
     const name = formData.get("name");
+    const public_key = formData.get("public");
+    const secret_key = formData.get("secret");
     const active = formData.get("active");
     if (typeof name !== "string") {
         return json<ActionData>(
@@ -45,36 +49,49 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-    const categoryId = params.categoryid;
-    //sting to int
-    const categoryIdInt = parseInt(categoryId || "0");
-
-    const category = await UpdateCategory(categoryIdInt, name, active === "on" ? true : false);
-    if(!category){
+    if (typeof public_key !== "string") {
         return json<ActionData>(
-            { errors: { name: "Категория с таким именем не существует" } },
+            { errors: { public: "Публичный ключ не задан" } },
+            { status: 400 }
+        );
+    }
+    if (typeof secret_key !== "string") {
+        return json<ActionData>(
+            { errors: { secret: "Секректный ключ не задан" } },
+            { status: 400 }
+        );
+    }
+    const methodId = params.methodid;
+    const methodIdInt = parseInt(methodId || "0");
+
+    const method = await updateMethod(methodIdInt, name, public_key, secret_key, active === "on" ? true : false);
+    if(!method){
+        return json<ActionData>(
+            { errors: { name: "Метод с таким именем не существует" } },
             { status: 400 }
         );
     }
     
-    return redirect("/admin/category");
+    return redirect("/admin/method");
 };
 
-const CategoryEdit = () => {
-    const category = useLoaderData().body;
+const MethodEdit = () => {
+    const method = useLoaderData().body;
     const actionData = useActionData() as ActionData;
     return (
         <Form method="post">
             <div className="container mx-auto">
-                <h1 className="text-gray-900 dark:text-gray-300 text-center">Редактирование категории</h1>
-                <InputLabel actionData={actionData} defaultvalue={category.name} value={'name'} name={"Название"} type="text"/>
+                <h1 className="text-gray-900 dark:text-gray-300 text-center">Редактирование метода оплаты</h1>
+                <InputLabel actionData={actionData} defaultvalue={method.title} value={'name'} name={"Название"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={method.methodkey.PUBLIC_KEY} value={'public'} name={"Публичный ключ или ID магазина"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={method.methodkey.SECRET_KEY} value={'secret'} name={"Секретный ключ"} type="password"/>
                 <div className="flex items-center justify-center">
                     <div className="flex items-center">
                         <input
                             id="active"
                             name="active"
                             type="checkbox"
-                            defaultChecked={category.active}
+                            defaultChecked={method.isActive}
                             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />
                         <label
@@ -94,4 +111,4 @@ const CategoryEdit = () => {
     )
 }
 
-export default CategoryEdit;
+export default MethodEdit;

@@ -25,6 +25,7 @@ model Item {
     fake_price  Int
     doplata     Boolean
     active      Boolean
+    imageSrc    String   @db.LongText
     categoryId  Int?
     command     String
     serverId    Int?

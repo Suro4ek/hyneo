@@ -18,6 +18,7 @@ interface ActionData {
         category_id?: string;
         server_id?: string;
         command?: string;
+        image?: string;
     };
 }
 
@@ -149,6 +150,7 @@ const AddItem = () => {
                 <InputLabel actionData={actionData} defaultvalue={""} value={'price'} name={"Стоимость"} type="text" />
                 <InputLabel actionData={actionData} defaultvalue={""} value={'fake_price'} name={"Cтоимость без скидки"} type="text" />
                 <InputLabel actionData={actionData} defaultvalue={""} value={'command'} name={"Команда"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'image'} name={"Ссылка на картинку"} type="text" />
                 <div className="mt-6">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
                     <ListBox lists={data.categories} def={null} name_value="category_id" />

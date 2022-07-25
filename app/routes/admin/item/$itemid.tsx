@@ -40,6 +40,7 @@ interface ActionData {
         category_id?: string;
         server_id?: string;
         command?: string;
+        image?: string;
     };
 }
 
@@ -156,7 +157,7 @@ const ItemEdit = () => {
     return (
         <Form method="post">
             <div className="container mx-auto">
-                <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление товара</h1>
+                <h1 className="text-gray-900 dark:text-gray-300 text-center">Редактирование товара</h1>
                 <InputLabel actionData={actionData} defaultvalue={item.name} value={'name'} name={"Название"} type="text"/>
                 <div className="mt-6">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Описание</label>
@@ -170,8 +171,7 @@ const ItemEdit = () => {
                 <InputLabel actionData={actionData} defaultvalue={item.price} value={'price'} name={"Стоимость"} type="text"/>
                 <InputLabel actionData={actionData} defaultvalue={item.fake_price} value={'fake_price'} name={"Cтоимость без скидки"} type="text"/>
                 <InputLabel actionData={actionData} defaultvalue={item.command} value={'command'} name={"Команда"} type="text" />
-
-
+                <InputLabel actionData={actionData} defaultvalue={item.imageSrc} value={'image'} name={"Ссылка на картинку"} type="text" />
                 <div className="mt-6">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
                     <ListBox lists={categories} def={item.category !== null ? categories.filter((category) => category.id === item.category.id)[0] : null} name_value="category_id" />

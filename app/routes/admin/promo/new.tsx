@@ -1,27 +1,25 @@
-import { ActionFunction, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
+import { ActionFunction, json } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import InputLabel from "~/components/admin/InputLabel";
-import { CreateServer } from "~/models/servers.server";
+import { createPromo } from "~/models/promo.server";
 
 interface ActionData {
     errors?: {
         name?: string;
-        ip?: string;
-        port?: string;
-        password?: string;
+        count?: string;
+        discount?: string;
     };
 }
 
 export const action: ActionFunction = async ({
-                                                 request
-                                             }) => {
+    request,
+}) => {
     const formData = await request.formData();
     const name = formData.get("name");
+    const count = formData.get("count");
+    const discount = formData.get("discount");
     const active = formData.get("active");
-    const ip = formData.get("ip");
-    const port = formData.get("port");
-    const password = formData.get("password");
-
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
@@ -35,42 +33,48 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-    if(typeof ip !== "string" || ip.length == 0) {
+    if (typeof count !== "string") {
         return json<ActionData>(
-            { errors: { ip: "Айпи не задан" } },
+            { errors: { count: "Количество не задано" } },
             { status: 400 }
         );
     }
-    if(typeof port !== "string" || port.length == 0) {
+    if (typeof discount !== "string") {
         return json<ActionData>(
-            { errors: { port: "Порт не задан" } },
+            { errors: { discount: "Скидка не задана" } },
             { status: 400 }
         );
     }
-    if(typeof password !== "string" || password.length == 0) {
+    const countInt = parseInt(count || "0");
+    const discountInt = parseInt(discount || "0");
+    if(countInt === 0 || isNaN(countInt)){
         return json<ActionData>(
-            { errors: { port: "Пароль не задан" } },
+            { errors: { count: "Количество не задано" } },
             { status: 400 }
         );
     }
-    await CreateServer(name, ip, port, password, active === "on");
-
-    return redirect("/admin/server");
+    if(discountInt === 0 || isNaN(discountInt) || discountInt > 100 || discountInt < 0){
+        return json<ActionData>(
+            { errors: { discount: "Скидка не задана" } },
+            { status: 400 }
+        );
+    }
+    await createPromo(name, countInt, discountInt, active === "on" ? true : false);
+    return redirect("/admin/promo");
 };
 
-const ServerAdd = () => {
+const AddPromo = () => {
     const actionData = useActionData() as ActionData;
 
     return (
         <Form method="post">
             <div className="container mx-auto">
-                <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление сервера</h1>
+                <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление промокода</h1>
                 <InputLabel actionData={actionData} defaultvalue={""} value={'name'} name={"Название"} type="text"/>
-                <InputLabel actionData={actionData} defaultvalue={""} value={'ip'} name={"IP"} type="text"/>
-                <InputLabel actionData={actionData} defaultvalue={""} value={'port'} name={"PORT"} type="text"/>
-                <InputLabel actionData={actionData} defaultvalue={""} value={'password'} name={"Пароль"} type="password"/>
-                <div className="flex items-center justify-center mt-8">
-                    <div className="flex items-center ml-4">
+                <InputLabel actionData={actionData} defaultvalue={""} value={'count'} name={"Количество (-1 бесконечный)"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={""} value={'discount'} name={"Скидка"} type="text"/>
+                <div className="flex items-center justify-center">
+                    <div className="flex items-center">
                         <input
                             id="active"
                             name="active"
@@ -94,4 +98,4 @@ const ServerAdd = () => {
     )
 }
 
-export default ServerAdd;
+export default AddPromo;

@@ -10,6 +10,20 @@ async function seed() {
   await prisma.user.delete({ where: { username } }).catch(() => {
 
   });
+  await prisma.methodKey.deleteMany({});
+
+  await prisma.method.delete({ where: { name: "Qiwi" } }).catch(() => {
+
+  });
+
+  await prisma.method.delete({ where: { name: "FreeKassa" } }).catch(() => {
+
+  });
+
+  await prisma.method.delete({ where: { name: "GetPay" } }).catch(() => {
+
+  });
+
 
   const hashedPassword = await bcrypt.hash("supermegaadmin", 10);
 
@@ -32,7 +46,7 @@ async function seed() {
       methodkey:{
         connectOrCreate:{
           where:{
-            id: 0
+            id: 1
           },
           create:{
             SECRET_KEY: "",
@@ -51,7 +65,7 @@ async function seed() {
       methodkey:{
         connectOrCreate:{
           where:{
-            id: 1
+            id: 2
           },
           create:{
             SECRET_KEY: "",
@@ -70,7 +84,7 @@ async function seed() {
       methodkey:{
         connectOrCreate:{
           where:{
-            id: 2
+            id: 3
           },
           create:{
             SECRET_KEY: "",

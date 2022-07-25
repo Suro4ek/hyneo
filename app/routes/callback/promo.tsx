@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({
         );
     }else{
         return json(
-            { discount:  promoDB.discount },
+            { promocode:  promoDB.name, discount: promoDB.discount },
             { status: 200 }
         )
     }

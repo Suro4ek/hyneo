@@ -1,26 +1,27 @@
-import { json, LoaderFunction } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
-import { getCategories } from "~/models/category.server";
+import { Link, useLoaderData } from "@remix-run/react";
+import { json, LoaderFunction } from "@remix-run/node";
+import { getPromos } from "~/models/promo.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-    const categories = await getCategories();
-    return json({ categories });
+    const promos = await getPromos();
+    return json({ promos });
 }
 
-const CategoryPage = () => {
-    const categories = useLoaderData().categories;
+
+const PromoPage = () => {
+    const promos = useLoaderData().promos;
+    console.log(promos)
     return (
         <div className="overflow-x-auto relative shadow-md">
             <div className="grid place-items-center ">
                 <ul className="mt-4 flex flex-wrap text-sm font-medium text-center">
                     <li className="mr-2">
-                        <Link to={"/admin/category/new"} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        >Добавить категорию</Link>
+                        <Link to={"/admin/promo/new"} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        >Добавить промокод</Link>
                     </li>
                 </ul>
             </div>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
-
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="py-3 px-6">
@@ -28,6 +29,12 @@ const CategoryPage = () => {
                         </th>
                         <th scope="col" className="py-3 px-6">
                             Название
+                        </th>
+                        <th scope="col" className="py-3 px-6">
+                            Количество
+                        </th>
+                        <th scope="col" className="py-3 px-6">
+                            Скидка
                         </th>
                         <th scope="col" className="py-3 px-6">
                             Статус
@@ -42,22 +49,28 @@ const CategoryPage = () => {
                 </thead>
                 <tbody>
                     {
-                        categories.map((category, index) => (
+                        promos.map((promo, index: number) => (
                             <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td className="py-4 px-6">
-                                    {category.id}
+                                    {promo.id}
                                 </td>
                                 <td className="py-4 px-6">
-                                    {category.name}
+                                    {promo.name}
                                 </td>
                                 <td className="py-4 px-6">
-                                    {category.active ? "Активная" : "Неактивная"}
+                                    {promo.count}
                                 </td>
                                 <td className="py-4 px-6">
-                                    <Link to={`/admin/category/${category.id}`} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Редактировать</Link>
+                                    {promo.discount}
                                 </td>
                                 <td className="py-4 px-6">
-                                    <Link to={`/admin/category/delete/${category.id}`} className="focus:outline-none text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Удалить</Link>
+                                    {promo.active ? <span className="text-green-700">Активна</span> : <span className="text-red-700">Не активна</span>}
+                                </td>
+                                <td className="py-4 px-6">
+                                    <Link to={`/admin/promo/${promo.id}`} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Редактировать</Link>
+                                </td>
+                                <td className="py-4 px-6">
+                                    <Link to={`/admin/promo/delete/${promo.id}`} className="focus:outline-none text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Удалить</Link>
                                 </td>
                             </tr>
                         ))
@@ -68,4 +81,4 @@ const CategoryPage = () => {
     )
 }
 
-export default CategoryPage 
+export default PromoPage;

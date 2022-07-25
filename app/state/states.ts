@@ -1,9 +1,9 @@
 import {atom} from "recoil";
 
-export const Image = atom({
-    key: 'image',
-    default: false,
-});
+// export const Image = atom({
+//     key: 'image',
+//     default: false,
+// });
 
 export const Tlauncher = atom({
     key: 'tlauncher',
@@ -22,5 +22,5 @@ export const BuyItem = atom({
 
 export const PromoCode = atom({
     key: 'promoCode',
-    default: '',
+    default: {promo: '', discount: 0},
 })

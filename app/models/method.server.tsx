@@ -16,3 +16,40 @@ export async function getMethods() {
         }
     );
 }
+
+export async function getMethodsAdmin() {
+    return prisma.method.findMany();
+}
+
+export async function updateMethod(id: number, title: string, public_key: string, secret_key: string, active: boolean) {
+    return prisma.method.update({
+        where: {
+            id,
+        },
+        data: {
+            title,
+            isActive: active,
+            methodkey:{
+                update:{
+                    PUBLIC_KEY: public_key,
+                    SECRET_KEY: secret_key,
+                }
+            }
+        },
+        include:{
+            methodkey: true,
+        }
+    });
+}
+
+
+export async function getMethod(id:number) {
+    return prisma.method.findFirst({
+        where: {
+            id,
+        },
+        include:{
+            methodkey: true
+        }
+    });
+}
