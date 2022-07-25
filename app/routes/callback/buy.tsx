@@ -44,6 +44,7 @@ export const action: ActionFunction = async ({
     let apiUrl = process.env.API_URL || "http://localhost:8080/";
     if(method.name === "Qiwi"){
         let res = await fetch(apiUrl+"bill/qiwi", {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${process.env.API_TOKEN}`,
             },
@@ -58,6 +59,7 @@ export const action: ActionFunction = async ({
           }
     }else if(method.name === "FreeKassa"){
         let res = await fetch(apiUrl+"bill/free_kassa", {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${process.env.API_TOKEN}`,
             },
@@ -72,6 +74,7 @@ export const action: ActionFunction = async ({
           }
     }else if(method.name === "GetPay"){
         let res = await fetch(apiUrl+"bill/getpay", {
+            method: "POST",
             headers: {
               Authorization: `Bearer ${process.env.API_TOKEN}`,
             },
