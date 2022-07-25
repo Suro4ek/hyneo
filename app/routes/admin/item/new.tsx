@@ -43,6 +43,7 @@ export const action: ActionFunction = async ({
     const categoryId = formData.get("category_id");
     const serverId = formData.get("server_id");
     const doplata = formData.get("doplata");
+    const image = formData.get("image");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
@@ -85,6 +86,12 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     } 
+    if(typeof image !== "string"){
+        return json<ActionData>(
+            { errors: { image: "Изображение не задано" } },
+            { status: 400 }
+        );
+    }
     const priceInt = parseInt(price || "0");
     const fake_priceInt = parseInt(fake_price || "0");
     const categoryIdInt = parseInt(categoryId || "0");
@@ -119,7 +126,7 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-    await createItem(name, description, command, priceInt, fake_priceInt, categoryIdInt,serverIdInt, active === "on", doplata === "on");
+    await createItem(name, description, command, priceInt, fake_priceInt, image, categoryIdInt, serverIdInt, active === "on", doplata === "on");
 
     return redirect("/admin/item");
 };

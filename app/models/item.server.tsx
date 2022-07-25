@@ -2,7 +2,7 @@ import { prisma } from "~/db.server";
 
 export type {Item} from "@prisma/client";
 
-export async function createItem(name: string, description: string, command: string, price: number, fake_price: number, categoryId: number, serverId: number, active: boolean, doplata: boolean) {
+export async function createItem(name: string, description: string, command: string, price: number, fake_price: number,image: string, categoryId: number, serverId: number, active: boolean, doplata: boolean) {
         return prisma.item.create({
             data: {
                 name,
@@ -19,6 +19,7 @@ export async function createItem(name: string, description: string, command: str
                         id: serverId
                     }
                 },
+                imageSrc: image,
                 command: command,
                 active: active,
                 doplata: doplata,
@@ -26,7 +27,7 @@ export async function createItem(name: string, description: string, command: str
         });
 }
 
-export async function updateItem(id: number,name: string, description: string, command: string, price: number, fake_price: number, categoryId: number, serverId: number, active: boolean, doplata: boolean){
+export async function updateItem(id: number,name: string, description: string, command: string, price: number, fake_price: number, image: string, categoryId: number, serverId: number, active: boolean, doplata: boolean){
         return prisma.item.update({
             where: {
                 id,
@@ -46,6 +47,7 @@ export async function updateItem(id: number,name: string, description: string, c
                         id: serverId
                     }
                 },
+                imageSrc: image,
                 command: command,
                 active: active,
                 doplata: doplata,
