@@ -71,8 +71,8 @@ model Method {
 
 model MethodKey {
     id         Int      @id @default(autoincrement())
-    SECRET_KEY String
-    PUBLIC_KEY String
+    SECRET_KEY String   @db.LongText
+    PUBLIC_KEY String   @db.LongText
     methodId   Int      @unique
     method     Method   @relation(fields: [methodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

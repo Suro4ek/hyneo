@@ -1,4 +1,4 @@
-import type { ActionFunction} from "@remix-run/node";
+import { ActionFunction, redirect} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getMethod } from "~/models/method.server";
 
@@ -57,6 +57,7 @@ export const action: ActionFunction = async ({
                 { status: 400 }
             );
           }
+          return redirect(data.payUrl)
     }else if(method.name === "FreeKassa"){
         let res = await fetch(apiUrl+"bill/free_kassa", {
             method: "POST",
