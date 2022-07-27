@@ -73,6 +73,7 @@ export const action: ActionFunction = async ({
                 { status: 400 }
             );
           }
+          return redirect(data.payUrl)
     }else if(method.name === "GetPay"){
         let res = await fetch(apiUrl+"bill/getpay", {
             method: "POST",
@@ -88,6 +89,7 @@ export const action: ActionFunction = async ({
                 { status: 400 }
             );
           }
+          return redirect(data.payUrl)
     }else{
         return json(
             { errors: { method_id: "Метод не найден" } },
