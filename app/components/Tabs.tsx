@@ -50,8 +50,8 @@ export default function Tabs() {
                                         <div className="p-2 transition duration-[800ms] transform group-hover:scale-105">
                                             <img className="block w-[160px] h-[165px] mx-auto" src={item.imageSrc} alt="Картинка" />
                                         </div>
-                                        <div className="border-b-[1px] border-t-[1px] border-white py-2 font-semibold">
-                                            <span className="drop-shadow-2xl shadow-black">{item.price}₽</span> <span className='drop-shadow-lg shadow-black text-[#afb0b0] line-through'>{item.fake_price}₽</span>
+                                        <div className="border-b-[1px] border-t-[1px] border-white py-2 font-semibold" style={{textShadow: "rgb(0 0 0 / 60%) 1px 1px 2px"}}>
+                                            <span className="">{item.price}₽</span> <span className='text-[#afb0b0] line-through'>{item.fake_price}₽</span>
                                         </div>
                                         <button className="py-2 transition duration-400 h-auto ease-in-out w-full hover:bg-[#ffc107]">
                                             Купить
