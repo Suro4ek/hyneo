@@ -1,16 +1,15 @@
 import { BsShop } from "react-icons/bs"
 import { IoNewspaperOutline } from "react-icons/io5"
 import { GiHammerDrop, GiHelp } from "react-icons/gi"
-import { TiSocialFacebook } from "react-icons/ti"
 import logotype from "../images/logotype.png"
 import {AiOutlineDown} from "react-icons/ai";
-import vk from "../images/header/vk.svg"
 import { Link } from 'react-scroll'
 import useVideo from "~/hooks/useVideo";
 import HeaderItem from "~/components/HeaderItem";
 import {useSetRecoilState} from "recoil";
 import {Tlauncher} from "~/state/states";
 import {useMinecraft} from "~/utils/utils";
+import {TbBook2, TbBrandVk} from "react-icons/tb";
 
 const Header = () => {
     const {video} = useVideo();
@@ -25,12 +24,12 @@ const Header = () => {
                 <div className="relative flex justify-center items-center [&>*]:px-2 [&>*]:mr-2 md:[&>*]:px-4 pt-8 text-lg text-white">
                     <HeaderItem to={"#"}><BsShop
                         className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Магазин</span></HeaderItem>
-                    <HeaderItem to={"https://wiki.hyneo.ru"}><IoNewspaperOutline
+                    <HeaderItem to={"https://wiki.hyneo.ru"}><TbBook2
                         className="w-6 h-6 md:mr-2 md:-ml-1"/> <span className="hidden md:block">Правила</span></HeaderItem>
                     <HeaderItem to={"https://ban.hyneo.ru"}><GiHammerDrop className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Банлист</span></HeaderItem>
                     <HeaderItem to={"https://vk.me/hyneo"}><GiHelp className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Помощь</span></HeaderItem>
-                    <HeaderItem to={"https://forum.hyneo.ru"}><GiHelp className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Форум</span></HeaderItem>
-                    <HeaderItem to={"https://vk.com/hyneo"}><img src={vk} className="white w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Группа
+                    <HeaderItem to={"https://forum.hyneo.ru"}><IoNewspaperOutline className="w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Форум</span></HeaderItem>
+                    <HeaderItem to={"https://vk.com/hyneo"}><TbBrandVk className="white w-6 h-6 md:mr-2 md:-ml-1"/><span className="hidden md:block">Группа
                         ВК</span></HeaderItem>
                 </div>
             </nav>
