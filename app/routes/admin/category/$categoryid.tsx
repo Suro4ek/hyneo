@@ -23,6 +23,7 @@ export const loader :LoaderFunction = async ({request, params}) => {
 interface ActionData {
     errors?: {
         name?: string;
+        place?: string;
     };
 }
 
@@ -32,9 +33,16 @@ export const action: ActionFunction = async ({
     const formData = await request.formData();
     const name = formData.get("name");
     const active = formData.get("active");
+    const place = formData.get("place");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
+            { status: 400 }
+        );
+    }
+    if (typeof place !== "string") {
+        return json<ActionData>(
+            { errors: { place: "Позиция не задана" } },
             { status: 400 }
         );
     }
@@ -45,11 +53,18 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
+    const placeInt = parseInt(place|| "0");
     const categoryId = params.categoryid;
     //sting to int
     const categoryIdInt = parseInt(categoryId || "0");
+    if(isNaN(placeInt)){
+        return json<ActionData>(
+            { errors: { place: "Позиция должна быть числом" } },
+            { status: 400 }
+        );
+    }
 
-    const category = await UpdateCategory(categoryIdInt, name, active === "on" ? true : false);
+    const category = await UpdateCategory(categoryIdInt, name, active === "on" ? true : false, placeInt);
     if(!category){
         return json<ActionData>(
             { errors: { name: "Категория с таким именем не существует" } },
@@ -68,6 +83,7 @@ const CategoryEdit = () => {
             <div className="container mx-auto">
                 <h1 className="text-gray-900 dark:text-gray-300 text-center">Редактирование категории</h1>
                 <InputLabel actionData={actionData} defaultvalue={category.name} value={'name'} name={"Название"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={category.place} value={'place'} name={"Место"} type="text" />
                 <div className="flex items-center justify-center">
                     <div className="flex items-center">
                         <input

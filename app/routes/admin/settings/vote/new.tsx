@@ -1,13 +1,14 @@
 import { Form, useActionData } from "@remix-run/react";
 import { ActionFunction, json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { createCategory, getCategoryByName } from "~/models/category.server";
 import InputLabel from "~/components/admin/InputLabel";
+import { createVote } from "~/models/vote.server";
 
 interface ActionData {
     errors?: {
         name?: string;
-        place?: string;
+        title?: string;
+        url?: string;
     };
 }
 
@@ -17,19 +18,27 @@ export const action: ActionFunction = async ({
     const formData = await request.formData();
     const name = formData.get("name");
     const active = formData.get("active");
-    const place = formData.get("place");
+    const title = formData.get("title");
+    const url = formData.get("url");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
             { status: 400 }
         );
     }
-    if (typeof place !== "string") {
+    if (typeof title !== "string") {
         return json<ActionData>(
-            { errors: { place: "Позиция не задана" } },
+            { errors: { title: "Название не задана" } },
             { status: 400 }
         );
     }
+    if (typeof url !== "string") {
+        return json<ActionData>(
+            { errors: { url: "Ссылка не задана" } },
+            { status: 400 }
+        );
+    }
+
 
     if(name.length < 4){
         return json<ActionData>(
@@ -37,34 +46,20 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-
-    const category = await getCategoryByName(name);
-    if(category){
-        return json<ActionData>(
-            { errors: { name: "Категория с таким именем уже существует" } },
-            { status: 400 }
-        );
-    }
-    const placeInt = parseInt(place|| "0");
-    if(isNaN(placeInt)){
-        return json<ActionData>(
-            { errors: { place: "Позиция должна быть числом" } },
-            { status: 400 }
-        );
-    }
-    await createCategory(name, active === "on" ? true : false, placeInt);
-    return redirect("/admin/category");
+    await createVote(name, url, title, active === "on" ? true : false);
+    return redirect("/admin/settings/vote/");
 };
 
-const AddCategory = () => {
+const Add = () => {
     const actionData = useActionData() as ActionData;
 
     return (
         <Form method="post">
             <div className="container mx-auto">
-                <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление категории</h1>
+                <h1 className="text-gray-900 dark:text-gray-300 text-center">Добавление голосования</h1>
                 <InputLabel actionData={actionData} defaultvalue={""} value={'name'} name={"Название"} type="text"/>
-                <InputLabel actionData={actionData} defaultvalue={""} value={'place'} name={"Место"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={""} value={'title'} name={"Название на сайте"} type="text"/>
+                <InputLabel actionData={actionData} defaultvalue={""} value={'url'} name={"Ссылка"} type="text"/>
                 <div className="flex items-center justify-center">
                     <div className="flex items-center">
                         <input
@@ -90,4 +85,4 @@ const AddCategory = () => {
     )
 }
 
-export default AddCategory;
+export default Add;

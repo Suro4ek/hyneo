@@ -10,7 +10,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 const PromoPage = () => {
     const promos = useLoaderData().promos;
-    console.log(promos)
     return (
         <div className="overflow-x-auto relative shadow-md">
             <div className="grid place-items-center ">

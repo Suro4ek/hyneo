@@ -24,6 +24,8 @@ async function seed() {
 
   });
 
+  await prisma.settings.deleteMany({});
+
 
   const hashedPassword = await bcrypt.hash("supermegaadmin", 10);
 
@@ -43,12 +45,12 @@ async function seed() {
       name: "Qiwi",
       isActive: true,
       title: "QiWi",
-      methodkey:{
-        connectOrCreate:{
-          where:{
+      methodkey: {
+        connectOrCreate: {
+          where: {
             id: 1
           },
-          create:{
+          create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
           }
@@ -62,12 +64,12 @@ async function seed() {
       name: "FreeKassa",
       isActive: true,
       title: "FreeKassa",
-      methodkey:{
-        connectOrCreate:{
-          where:{
+      methodkey: {
+        connectOrCreate: {
+          where: {
             id: 2
           },
-          create:{
+          create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
           }
@@ -81,18 +83,50 @@ async function seed() {
       name: "GetPay",
       isActive: true,
       title: "GetPay",
-      methodkey:{
-        connectOrCreate:{
-          where:{
+      methodkey: {
+        connectOrCreate: {
+          where: {
             id: 3
           },
-          create:{
+          create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
           }
         }
       }
     },
+  });
+
+  const settings = await prisma.settings.create({
+    data: {
+      footer: "Тест",
+      Vote: {
+        connectOrCreate: {
+          where: {
+            id: 1,
+          },
+          create: {
+            title: "Голосование",
+            name: "Vote",
+            active: true,
+            url: "https://vote.hyneo.ru",
+          },
+        },
+      },
+      Link: {
+        connectOrCreate: {
+          where: {
+            id: 1,
+          },
+          create: {
+            title: "Ссылка",
+            name: "Link",
+            active: true,
+            url: "https://hyneo.ru",
+          },
+        }
+      },
+    }
   });
 
 

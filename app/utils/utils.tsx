@@ -28,6 +28,22 @@ export function useOptionalUser() {
     return data.user;
   }
 
+export function useOptionalSettings(){
+  const data = useMatchesData("routes/index");
+  if (!data || !data.settings) {
+    return undefined;
+  }
+  return data.settings;
+}
+
+export function useSettings(){
+  const settings = useOptionalSettings();
+  if (!settings) {
+    return undefined;
+  }
+  return settings;
+}
+
 export function useOptionalCategories() {
     const data = useMatchesData("routes/index");
     if (!data || !Array.isArray(data.categories)) {

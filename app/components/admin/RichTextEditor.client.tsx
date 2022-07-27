@@ -5,9 +5,6 @@ const RichTextEditorClient = ({value}) => {
     const editor = useRef(null)
     const [content, setContent] = useState(value)
 
-    useEffect(() => {
-        console.log(content)
-    }, [content])
     return (
         <>
 

@@ -10,7 +10,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 const ItemPage = () => {
     const items = useLoaderData().items;
-    console.log(items)
     return(
         <div className="overflow-x-auto relative shadow-md">
         <div className="grid place-items-center ">

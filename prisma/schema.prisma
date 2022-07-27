@@ -14,6 +14,7 @@ model Category {
    id        Int      @id @default(autoincrement())
    name      String   @unique
    active    Boolean
+   place     Int      @default(10000)
    items     Item[]
 }
 
@@ -32,6 +33,7 @@ model Item {
     Server      Server?    @relation(fields: [serverId], references: [id], onDelete: SetNull)
     category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
     order       Order[]
+    place       Int     @default(10000)
 }
 
 model Order {
@@ -91,4 +93,31 @@ model Promo {
     active    Boolean
     count     Int      
     discount  Int      
+}
+
+model Settings {
+    id        Int      @id @default(autoincrement())
+    footer    String   @db.LongText
+    Vote      Vote[]
+    Link      Links[]
+}
+
+model Links {
+    id            Int       @id @default(autoincrement())
+    name          String    @unique
+    active        Boolean
+    title         String   
+    url           String    @db.LongText  
+    SettingsId    Int       
+    Settings      Settings  @relation(fields: [SettingsId], references: [id])
+}
+
+model Vote {
+    id            Int       @id @default(autoincrement())
+    name          String    @unique
+    active        Boolean
+    title         String   
+    url           String    @db.LongText  
+    SettingsId    Int       
+    Settings      Settings  @relation(fields: [SettingsId], references: [id])
 }

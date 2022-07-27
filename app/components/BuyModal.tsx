@@ -64,14 +64,14 @@ const BuyModal = () => {
                                 >
                                     Покупка привелегии
                                 </Dialog.Title>
-                                <div className="flex">
-                                    <div className="w-2/4 text-lg whitespace-normal">
+                                <div className="flex flex-col md:flex-row">
+                                    <div className="w-full md:w-2/4 text-lg whitespace-normal">
                                         Описание
                                         <div className="mt-2 text-gray-400 ">
                                             <Interweave content={item.description} />
                                         </div>
                                     </div>
-                                    <div className="w-2/4">
+                                    <div className="w-full md:w-2/4">
                                         {item.doplata === false ? (<div className="w-full mb-4">
                                             <Promo />
                                         </div>) : ""}
@@ -98,7 +98,7 @@ const BuyModal = () => {
                                                     </div>
                                                     <button type="submit"
                                                         className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2 mb-2">
-                                                        Купить или доплатить
+                                                             {item.doplata === false ? "Купить" : "Купить или доплатить"}
                                                     </button>
                                                 </div>
                                             </div>

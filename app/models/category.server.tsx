@@ -21,6 +21,9 @@ export async function getCategoriesActive() {
 
 export async function getCategoriesByItems() {
     return prisma.category.findMany({
+        orderBy:{
+            place: 'asc'
+        },
         where: {
             active: true,
             items:{
@@ -35,10 +38,11 @@ export async function getCategoriesByItems() {
                 }
             }
         },
-        select: {
-            id: true,
-            name: true,
-            items: {
+        include:{
+            items:{
+                orderBy: {
+                    place: 'asc',
+                },
                 select: {
                     id: true,
                     name: true,
@@ -47,7 +51,7 @@ export async function getCategoriesByItems() {
                     description: true,
                     doplata: true,
                     imageSrc: true,
-                },
+                }
             }
         }
     });
@@ -61,11 +65,12 @@ export async function getCategoryByName(name: string) {
     });
 }
 
-export async function createCategory(name: string, active: boolean) {
+export async function createCategory(name: string, active: boolean, place: number) {
     return prisma.category.create({
         data: {
             name: name,
             active: active,
+            place: place
         },
     });
 }
@@ -78,7 +83,7 @@ export async function getCategoryById(id: number) {
     });
 }
 
-export async function UpdateCategory(id: number, name: string, active: boolean) {
+export async function UpdateCategory(id: number, name: string, active: boolean, place: number) {
     try{
         return prisma.category.update({
             where: {
@@ -87,6 +92,7 @@ export async function UpdateCategory(id: number, name: string, active: boolean) 
             data: {
                 name: name,
                 active: active,
+                place: place
             },
         });
     }catch(e){

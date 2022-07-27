@@ -1,4 +1,9 @@
+import { Interweave } from "interweave";
+import { useSettings } from "~/utils/utils";
+
 const Footer = () => {
+    const settings = useSettings();
+    console.log(settings)
     return(
         <footer className="p-4 sm:p-6 container mx-auto">
             <div className="md:flex md:justify-between md:max-w-4xl md:mx-auto">
@@ -7,7 +12,7 @@ const Footer = () => {
                         <span
                             className="text-2xl font-semibold whitespace-nowrap">О HyNeo Network</span>
                         <div className="text-gray-600 dark:text-gray-400">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                           <Interweave content={settings.footer} />
                         </div>
                     </div>
                 </div>
@@ -15,35 +20,21 @@ const Footer = () => {
                     <div className="w-full">
                         <h2 className="mb-6 text-sm text-white uppercase">Голосуйте за нас</h2>
                         <ul className="text-gray-600 dark:text-gray-400">
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Бла бла Бла блаБла блаБла блаБла блаБла бла</a>
-                            </li>
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Бла бла</a>
-                            </li>
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Бла бла</a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:underline">Бла бла</a>
-                            </li>
+                            {settings.Vote.map((vote, index) => (
+                                <li key={index} className="mb-2 last:mb-0">
+                                    <a href={vote.url} className="hover:underline text-white hover:text-gray-400">{vote.title}</a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="float-right w-full">
                         <h2 className="mb-6 text-sm text-white uppercase">Ссылки</h2>
                         <ul className="text-gray-600 dark:text-gray-400">
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Магазин</a>
-                            </li>
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Помощь</a>
-                            </li>
-                            <li className="mb-2">
-                                <a href="#" className="hover:underline">Форум</a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:underline">Подать жалобу</a>
-                            </li>
+                            {settings.Link.map((link, index) => (
+                                <li key={index} className="mb-2 last:mb-0">
+                                    <a href={link.url} className="hover:underline text-white hover:text-gray-400">{link.title}</a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>

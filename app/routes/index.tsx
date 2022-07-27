@@ -8,14 +8,15 @@ import {getMethods} from "~/models/method.server";
 import BuyModal from "~/components/BuyModal";
 import Footer from "~/components/Footer";
 import TLauncherModal from "~/components/TLauncherModal";
+import { getSettingsActive } from "~/models/settings.server";
 
 export const loader: LoaderFunction = async () => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
     const minecraft = {online: 100, slots: 100, max: 1000,}
-    return { categories, methods, minecraft };
+    const settings = await getSettingsActive(1);
+    return { categories, methods, minecraft, settings};
   };
-
 
 export default function Index() {
     useLoaderData();

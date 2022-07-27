@@ -41,6 +41,7 @@ interface ActionData {
         server_id?: string;
         command?: string;
         image?: string;
+        place? : string;
     };
 }
 
@@ -58,7 +59,8 @@ export const action: ActionFunction = async ({
     const categoryId = formData.get("category_id");
     const serverId = formData.get("server_id");
     const doplata = formData.get("doplata");
-    const image = formData.get("image")
+    const image = formData.get("image");
+    const place = formData.get("place");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
@@ -107,10 +109,17 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
+    if(typeof place !== "string"){
+        return json<ActionData>(
+            { errors: { place: "Позиция не задана" } },
+            { status: 400 }
+        );
+    }
     const priceInt = parseInt(price || "0");
     const fake_priceInt = parseInt(fake_price || "0");
     const categoryIdInt = parseInt(categoryId || "0");
     const serverIdInt = parseInt(serverId || "0");
+    const placeInt = parseInt(place || "0");
     if (name.length < 4) {
         return json<ActionData>(
             { errors: { name: "Имя слишком короткое" } },
@@ -141,10 +150,16 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
+    if (placeInt == 0 || isNaN(placeInt)) {
+        return json<ActionData>(
+            { errors: { place: "Позиция не задана" } },
+            { status: 400 }
+        );
+    }
     const itemId = params.itemid;
     //sting to int
     const itemIdInt = parseInt(itemId || "0");
-    await updateItem(itemIdInt, name, description, command, priceInt, fake_priceInt, image, categoryIdInt, serverIdInt, active === "on", doplata === "on");
+    await updateItem(itemIdInt, name, description, command, priceInt, fake_priceInt, image, categoryIdInt, serverIdInt, active === "on", doplata === "on", placeInt);
 
 
     return redirect("/admin/item");
@@ -179,6 +194,7 @@ const ItemEdit = () => {
                 <InputLabel actionData={actionData} defaultvalue={item.fake_price} value={'fake_price'} name={"Cтоимость без скидки"} type="text"/>
                 <InputLabel actionData={actionData} defaultvalue={item.command} value={'command'} name={"Команда"} type="text" />
                 <InputLabel actionData={actionData} defaultvalue={item.imageSrc} value={'image'} name={"Ссылка на картинку"} type="text" />
+                <InputLabel actionData={actionData} defaultvalue={item.place} value={'place'} name={"Место"} type="text" />
                 <div className="mt-6">
                     <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Категория</label>
                     <ListBox lists={categories} def={item.category !== null ? categories.filter((category) => category.id === item.category.id)[0] : null} name_value="category_id" />
