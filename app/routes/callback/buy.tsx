@@ -51,7 +51,7 @@ export const action: ActionFunction = async ({
             body: formData
           });
           let data = await res.json();
-          if(data.error !== null){
+          if(data.error !== undefined){
             return json(
                 { errors: { method_id: data.error } },
                 { status: 400 }
@@ -67,7 +67,7 @@ export const action: ActionFunction = async ({
             body: formData
           });
           let data = await res.json();
-          if(data.error !== null){
+          if(data.error !== undefined){
             return json(
                 { errors: { method_id: data.error } },
                 { status: 400 }
@@ -83,7 +83,7 @@ export const action: ActionFunction = async ({
             body: formData
           });
           let data = await res.json();
-          if(data.error !== null){
+          if(data.error !== undefined){
             return json(
                 { errors: { method_id: data.error } },
                 { status: 400 }
