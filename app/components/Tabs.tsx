@@ -44,7 +44,7 @@ export default function Tabs() {
                                         setOpen(true);
                                     }
                                     }>
-                                        <div className="border-b-[1px] border-white p-2 text-sm">
+                                        <div className="border-b-[1px] border-white p-2 text-md">
                                             {item.name}
                                         </div>
                                         <div className="p-2 transition duration-[800ms] transform group-hover:scale-105">
