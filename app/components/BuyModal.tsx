@@ -62,7 +62,7 @@ const BuyModal = () => {
                                     as="h3"
                                     className="text-2xl lg:text-4xl font-medium leading-6 text-gray-600 text-center pb-4 border-b-2 border-gray-400"
                                 >
-                                    Покупка привелегии
+                                    Покупка {item.name}
                                 </Dialog.Title>
                                 <div className="flex flex-col md:flex-row">
                                     <div className="w-full md:w-2/4 text-lg whitespace-normal">
