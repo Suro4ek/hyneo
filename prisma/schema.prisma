@@ -98,6 +98,7 @@ model Promo {
 model Settings {
     id        Int      @id @default(autoincrement())
     footer    String   @db.LongText
+    yandex    String   @db.LongText @default("")
     Vote      Vote[]
     Link      Links[]
 }

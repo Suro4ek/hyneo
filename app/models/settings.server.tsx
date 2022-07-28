@@ -11,13 +11,14 @@ export async function getSettings(id: number) {
     })
 } 
 
-export async function updateSettings(id: number, footer: string){
+export async function updateSettings(id: number, footer: string, yandex: string) {
     return prisma.settings.update({
         where:{
             id: id
         },
         data:{
-            footer: footer
+            footer: footer,
+            yandex: yandex
         }
     })
 }

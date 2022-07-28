@@ -11,13 +11,13 @@ export default function Tabs() {
     return (
         <div className="w-full px-2 py-16 sm:px-0">
             <Head.Tab.Group>
-                <Head.Tab.List className="flex space-x-1 p-1">
+                <Head.Tab.List className="flex space-x-1 p-1 flex-col md:flex-row">
                     {items.map((category) => (
                         <Head.Tab
                             key={category.id}
                             className={({ selected }) =>
                                 classNames(
-                                    'w-full  py-2.5 text-sm font-medium leading-5 text-blue-700',
+                                    'w-full  py-2.5 text-sm font-medium leading-5 text-center',
                                     'focus:outline-none',
                                     selected
                                         ? 'text-[#ffc107] shadow border-b-2 border-[#ffc107]'
@@ -39,7 +39,7 @@ export default function Tabs() {
                         >
                             {category.items.map((item) => (
                                 <div key={item.id} className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4 mt-4 group" >
-                                    <div className="overflow-hidden text-white h-full text-center text-2xl hover:bg-[#rgba(79, 57, 113, 0.51)]" style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }} onClick={() => {
+                                    <div className="overflow-hidden shadow-2xl text-white h-full text-center text-2xl transition duration-[800ms] transform bg-tab-card hover:bg-tab-card-hover" onClick={() => {
                                         setbuyItem(item);
                                         setOpen(true);
                                     }
