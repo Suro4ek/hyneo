@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputLabel = ({actionData, defaultvalue, name, value, type}:{actionData: any, defaultvalue: string,
+const InputLabel = ({actionData, defaultvalue, name, value, type, required}:{actionData: any, defaultvalue: string,
                     name: string, value: string, type: "text"|"password"}) => {
     
     React.useEffect(() => {
@@ -15,7 +15,7 @@ const InputLabel = ({actionData, defaultvalue, name, value, type}:{actionData: a
         <input
             ref={nameRef}
             id={value}
-            required
+            required={!!required}
             autoFocus={true}
             defaultValue={defaultvalue}
             name={value}

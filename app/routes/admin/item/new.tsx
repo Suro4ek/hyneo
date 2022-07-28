@@ -20,6 +20,7 @@ interface ActionData {
         command?: string;
         image?: string;
         place?: string;
+        gradient?: string;
     };
 }
 
@@ -46,6 +47,7 @@ export const action: ActionFunction = async ({
     const doplata = formData.get("doplata");
     const image = formData.get("image");
     const place = formData.get("place");
+    const gradient = formData.get("gradient");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
@@ -100,6 +102,12 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
+    if(typeof gradient !== "string"){
+        return json<ActionData>(
+            { errors: { gradient: "Градиент не задан" } },
+            { status: 400 }
+        );
+    }
     const priceInt = parseInt(price || "0");
     const fake_priceInt = parseInt(fake_price || "0");
     const categoryIdInt = parseInt(categoryId || "0");
@@ -141,7 +149,8 @@ export const action: ActionFunction = async ({
             { status: 400 }
         );
     }
-    await createItem(name, description, command, priceInt, fake_priceInt, image, categoryIdInt, serverIdInt, active === "on", doplata === "on", placeInt);
+
+    await createItem(name, description, command, priceInt, fake_priceInt, image, "", categoryIdInt, serverIdInt, active === "on", doplata === "on", placeInt);
 
     return redirect("/admin/item");
 };

@@ -25,6 +25,7 @@ interface ActionData {
         name?: string;
         public?: string;
         secret?: string;
+        secret2?: string;
     };
 }
 
@@ -35,6 +36,7 @@ export const action: ActionFunction = async ({
     const name = formData.get("name");
     const public_key = formData.get("public");
     const secret_key = formData.get("secret");
+
     const active = formData.get("active");
     if (typeof name !== "string") {
         return json<ActionData>(
@@ -63,13 +65,36 @@ export const action: ActionFunction = async ({
     }
     const methodId = params.methodid;
     const methodIdInt = parseInt(methodId || "0");
-
-    const method = await updateMethod(methodIdInt, name, public_key, secret_key, active === "on" ? true : false);
-    if(!method){
-        return json<ActionData>(
-            { errors: { name: "Метод с таким именем не существует" } },
-            { status: 400 }
-        );
+    const method = await getMethod(methodIdInt);
+    if (!method) {
+        return {
+            status: 404,
+            body: "Method not found",
+        };
+    }
+    if(method.name === "FreeKassa"){
+        const secret_key2 = formData.get("secret2");
+        if (typeof secret_key2 !== "string") {
+            return json<ActionData>(
+                { errors: { secret2: "Секректный ключ 2 не задан" } },
+                { status: 400 }
+            );
+        }
+        const metho = await updateMethod(methodIdInt, name, public_key, secret_key, secret_key2 , active === "on" ? true : false);
+        if(!metho){
+            return json<ActionData>(
+                { errors: { name: "Метод с таким именем не существует" } },
+                { status: 400 }
+            );
+        }
+    }else{
+        const metho = await updateMethod(methodIdInt, name, public_key, secret_key, "" , active === "on" ? true : false);
+        if(!metho){
+            return json<ActionData>(
+                { errors: { name: "Метод с таким именем не существует" } },
+                { status: 400 }
+            );
+        }
     }
     
     return redirect("/admin/method");
@@ -85,6 +110,8 @@ const MethodEdit = () => {
                 <InputLabel actionData={actionData} defaultvalue={method.title} value={'name'} name={"Название"} type="text"/>
                 <InputLabel actionData={actionData} defaultvalue={method.methodkey.PUBLIC_KEY} value={'public'} name={"Публичный ключ или ID магазина"} type="text"/>
                 <InputLabel actionData={actionData} defaultvalue={method.methodkey.SECRET_KEY} value={'secret'} name={"Секретный ключ"} type="password"/>
+                {method.name === "FreeKassa" ?  <InputLabel actionData={actionData} defaultvalue={method.methodkey.SECRET_KEY} value={'secret2'} name={"Секретный ключ2"} type="password"/>
+                : null}
                 <div className="flex items-center justify-center">
                     <div className="flex items-center">
                         <input

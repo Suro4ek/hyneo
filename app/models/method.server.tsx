@@ -21,7 +21,7 @@ export async function getMethodsAdmin() {
     return prisma.method.findMany();
 }
 
-export async function updateMethod(id: number, title: string, public_key: string, secret_key: string, active: boolean) {
+export async function updateMethod(id: number, title: string, public_key: string, secret_key: string, secret_key2: string, active: boolean) {
     return prisma.method.update({
         where: {
             id,
@@ -33,6 +33,7 @@ export async function updateMethod(id: number, title: string, public_key: string
                 update:{
                     PUBLIC_KEY: public_key,
                     SECRET_KEY: secret_key,
+                    SECRET_KEY2: secret_key2,
                 }
             }
         },

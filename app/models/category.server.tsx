@@ -49,6 +49,7 @@ export async function getCategoriesByItems() {
                     price: true,
                     fake_price: true,
                     description: true,
+                    Gradient: true,
                     doplata: true,
                     imageSrc: true,
                 }

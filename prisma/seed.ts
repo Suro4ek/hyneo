@@ -53,6 +53,7 @@ async function seed() {
           create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
+            SECRET_KEY2: "",
           }
         }
       }
@@ -72,6 +73,7 @@ async function seed() {
           create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
+            SECRET_KEY2: "",
           }
         }
       }
@@ -91,6 +93,7 @@ async function seed() {
           create: {
             SECRET_KEY: "",
             PUBLIC_KEY: "",
+            SECRET_KEY2: "",
           }
         }
       }

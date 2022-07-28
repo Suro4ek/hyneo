@@ -1,5 +1,5 @@
 import {classNames} from "~/utils/utils";
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import {useFetcher} from "@remix-run/react";
 import {useSetRecoilState} from "recoil";
 import {PromoCode} from "~/state/states";
@@ -8,7 +8,7 @@ const Promo = () => {
     const promo = useFetcher();
     const setPromocode = useSetRecoilState(PromoCode);
     useEffect(() => {
-        if (promo.data) {
+        if (promo.data?.promocode) {
             setPromocode({promo: promo.data.promocode, discount: promo.data.discount});
         }
     }, [promo.data])

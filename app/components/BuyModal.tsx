@@ -20,19 +20,27 @@ interface ActionData {
 }
 
 const BuyModal = () => {
-    const item = useRecoilValue(BuyItem);
-    const promo = useRecoilValue(PromoCode)
+    const [item, setItem] = useRecoilState(BuyItem);
+    const [promo,setPromo] = useRecoilState(PromoCode)
     const buy = useFetcher();
     let actionData = buy.data as ActionData;
     const [isOpen, setOpen] = useRecoilState(Buy);
-    console.log(item)
     useEffect(() => {
         actionData = buy.data as ActionData;
     }, [buy.data]);
 
+    const close = () => {
+        setOpen(false)
+        setItem({})
+        setPromo({promo: "", discount: 0})
+    }
+
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
+            <Dialog as="div" className="relative z-10" onClose={() => {
+                close()
+            }}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -108,7 +116,10 @@ const BuyModal = () => {
                                 <button
                                     type="button"
                                     className="inline-flex justify-center rounded-md border border-transparent absolute top-2 right-2"
-                                    onClick={() => setOpen(false)}
+                                    onClick={() => {
+                                        close()
+                                    }}
+                                    disabled={buy.state === "submitting"}
                                 >
                                     <IoCloseOutline className={"w-10 h-10"} />
                                 </button>
