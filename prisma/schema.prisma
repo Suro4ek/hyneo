@@ -45,6 +45,8 @@ model Order {
     summa     Int
     method    String
     dateIssue DateTime 
+    promoId   Int?
+    Promo     Promo?    @relation(fields: [promoId], references: [id], onDelete: SetNull)
 }
 
 model User {
@@ -93,6 +95,7 @@ model Promo {
     active    Boolean
     count     Int      
     discount  Int      
+    Order     Order[]
 }
 
 model Settings {
