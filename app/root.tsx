@@ -30,7 +30,13 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        
+        <script
+      dangerouslySetInnerHTML={{
+        __html: `
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(55334881, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+        `,
+      }}
+    />
       </head>
       <body style={{ fontFamily: "'Fira Sans Extra Condensed', sans-serif", backgroundImage: "radial-gradient(circle, #0f0c29, #302b63, #24243e)", fontSize: "16px" }}>
         <Outlet />
