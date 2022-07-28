@@ -38,7 +38,7 @@ export default function Tabs() {
                             )}
                         >
                             {category.items.map((item) => (
-                                <div key={item.id} className="my-1 px-1 w-full xl:1/3 md:w-1/4 lg:my-4 lg:px-4 lg:w-1/4 xl:w-1/5 mt-4 group" >
+                                <div key={item.id} className="my-1 px-1 w-full xl:1/3 md:w-1/4 lg:my-4 lg:px-4 lg:w-1/3 xl:w-1/4 2xl:w-1/5 mt-4 group" >
                                     <div className="overflow-hidden shadow-2xl text-white h-full text-center text-2xl transition duration-[800ms] transform bg-tab-card hover:bg-tab-card-hover" onClick={() => {
                                         setbuyItem(item);
                                         setOpen(true);
