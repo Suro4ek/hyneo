@@ -34,7 +34,7 @@ export default function Tabs() {
                         <Head.Tab.Panel
                             key={category.id}
                             className={classNames(
-                                'flex flex-wrap mx-1 lg:mx-48 justify-center items-stretch'
+                                'flex flex-wrap mx-1 md:mx-24 lg:mx-48 justify-center items-stretch'
                             )}
                         >
                             {category.items.map((item) => (
