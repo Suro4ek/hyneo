@@ -13,7 +13,15 @@ import { getSettingsActive } from "~/models/settings.server";
 export const loader: LoaderFunction = async () => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
-    const minecraft = {online: 100, slots: 100, max: 1000,}
+    let res = await fetch("https://api.hyneo.ru/online", {
+        method: "GET",
+    });
+    const online = await res.json();
+    let minecraft = {online: 100, slots: 100, max: 1000,}
+    if(!online.error){
+        minecraft = {online: online.online, slots: online.slots, max: online.max,}
+    }
+
     const settings = await getSettingsActive(1);
     return { categories, methods, minecraft, settings};
   };
@@ -28,10 +36,6 @@ export default function Index() {
              <Footer/>
             <TLauncherModal />
             <BuyModal />
-            {"<!-- GP_E4cb5ST9kUWy2jEhpnXSXZaELNXCVQps; -->"}
-            <a href="https://freekassa.ru/" target="_blank" rel="noopener noreferrer">
-                <img src="https://cdn.freekassa.ru/banners/big-dark-1.png" title="Прием платежей на сайте"/>
-            </a>
         </RecoilRoot>
 
     );

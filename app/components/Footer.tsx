@@ -45,7 +45,7 @@ const Footer = () => {
                                 © 2017-2022 Все права защищены HyNeo Network
                                 <br/>Сервер никак не связан с Mojang A.B.
                             </span>
-                            <Interweave content={settings.yandex}/>
+                            <Interweave content={settings.yandex} className={"sm:text-center"}/>
 
                 <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0 justify-center">
                     <a href="https://vk.com/hyneo" className="text-gray-500 hover:text-gray-900 dark:hover:text-white" target="_blank">
