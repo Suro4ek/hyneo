@@ -83,11 +83,13 @@ const Edit = () => {
                             id="active"
                             name="active"
                             type="checkbox"
+                            defaultChecked={vote.active}
                             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />
                         <label
                             htmlFor="active"
                             className="ml-2 block text-sm text-white"
+
                         >
                             Активный
                         </label>

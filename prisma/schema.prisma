@@ -110,7 +110,7 @@ model Settings {
 
 model Links {
     id            Int       @id @default(autoincrement())
-    name          String    @unique
+    name          String   
     active        Boolean
     title         String   
     url           String    @db.LongText  
@@ -120,7 +120,7 @@ model Links {
 
 model Vote {
     id            Int       @id @default(autoincrement())
-    name          String    @unique
+    name          String   
     active        Boolean
     title         String   
     url           String    @db.LongText  
