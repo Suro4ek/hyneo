@@ -62,7 +62,6 @@ export const action: ActionFunction = async ({
     const doplata = formData.get("doplata");
     const image = formData.get("image");
     const place = formData.get("place");
-    const gradient = formData.get("gradient");
     if (typeof name !== "string") {
         return json<ActionData>(
             { errors: { name: "Имя не задано" } },
@@ -114,12 +113,6 @@ export const action: ActionFunction = async ({
     if(typeof place !== "string"){
         return json<ActionData>(
             { errors: { place: "Позиция не задана" } },
-            { status: 400 }
-        );
-    }
-    if(typeof gradient !== "string"){
-        return json<ActionData>(
-            { errors: { gradient: "Градиент не задан" } },
             { status: 400 }
         );
     }
