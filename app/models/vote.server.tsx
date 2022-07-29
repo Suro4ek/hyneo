@@ -3,11 +3,7 @@ import { prisma } from "~/db.server";
 export type {Vote} from '@prisma/client';
 
 export async function getVotes(){
-    return prisma.vote.findMany({
-        where:{
-            active: true,
-        },
-    });
+    return prisma.vote.findMany();
 }
 
 export async function getVotesSite() {
