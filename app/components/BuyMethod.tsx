@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { useMethods } from '~/utils/utils';
+import {useRecoilState} from "recoil";
+import {BuyItem} from "~/state/states";
 
 export default function BuyMethod() {
     const methods = useMethods();
+    const [item, setItem] = useRecoilState(BuyItem);
     const [selected, setSelected] = useState(methods[0])
 
     return (
@@ -13,11 +16,17 @@ export default function BuyMethod() {
                 <RadioGroup value={selected} onChange={setSelected}>
                     <RadioGroup.Label >Методы оплаты</RadioGroup.Label>
                     <div className="space-y-2">
-                        {methods.map((plan) => (
+                        {methods.map((plan, index) => {
+                            if((item.price < 50 || item.price > 5000) &&index === 2) {
+                                return(
+                                    <></>
+                                )
+                            }
+                            return (
                             <RadioGroup.Option
                                 key={plan.title}
                                 value={plan}
-                                className={({ active, checked }) =>
+                                className={({active, checked}) =>
                                     `${
                                         active
                                             ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300'
@@ -29,7 +38,7 @@ export default function BuyMethod() {
                     relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                                 }
                             >
-                                {({ active, checked }) => (
+                                {({active, checked}) => (
                                     <>
                                         <div className="flex w-full items-center justify-between">
                                             <div className="flex items-center">
@@ -46,14 +55,14 @@ export default function BuyMethod() {
                                             </div>
                                             {checked && (
                                                 <div className="shrink-0 text-white">
-                                                    <CheckIcon className="h-6 w-6" />
+                                                    <CheckIcon className="h-6 w-6"/>
                                                 </div>
                                             )}
                                         </div>
                                     </>
                                 )}
                             </RadioGroup.Option>
-                        ))}
+                            )})}
                     </div>
                 </RadioGroup>
             </div>

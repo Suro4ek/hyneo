@@ -1,5 +1,5 @@
 # base node image
-FROM node:18 as base
+FROM --platform=linux/amd64 node:18 as base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
@@ -8,7 +8,7 @@ ENV NODE_ENV production
 RUN apt-get update && apt-get install -y openssl
 
 # Install all node_modules, including dev dependencies
-FROM base as deps
+FROM --platform=linux/amd64 base as deps
 
 WORKDIR /myapp
 
@@ -16,7 +16,7 @@ ADD package.json package-lock.json ./
 RUN npm install --production=false
 
 # Setup production node_modules
-FROM base as production-deps
+FROM --platform=linux/amd64 base as production-deps
 
 WORKDIR /myapp
 
@@ -25,7 +25,7 @@ ADD package.json package-lock.json ./
 RUN npm prune --production
 
 # Build the app
-FROM base as build
+FROM --platform=linux/amd64 base as build
 
 WORKDIR /myapp
 
@@ -43,7 +43,7 @@ ARG DATABASE_URL
 # RUN npm run deploy:db
 
 # Finally, build the production image with minimal footprint
-FROM base
+FROM --platform=linux/amd64 base
 
 WORKDIR /myapp
 
