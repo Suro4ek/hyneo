@@ -20,7 +20,7 @@
          stage('Push registry nexus'){
              steps{
                  script{
-                     docker.withRegistry( '', registryCredential ) {
+                     docker.withRegistry('https://registry.hyneo.ru', registryCredential ) {
                          dockerImage.push()
                          dockerImage.push('latest')
                      }
