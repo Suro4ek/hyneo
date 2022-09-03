@@ -35,6 +35,9 @@
                     ssh-keyscan -t rsa,dsa mc.hyneo.ru:11 >> ~/.ssh/known_hosts
                     ssh -p 11 suro@mc.hyneo.ru
                 '''
+                sh 'cd ./site'
+                sh 'docker compose pull site'
+                sh 'docker compose restart site'
                 }
             }
         }
