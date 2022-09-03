@@ -31,8 +31,6 @@
             steps{
                 sshagent(credentials : ['launch']) {
                 sh '''
-                    [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
-                    ssh-keyscan -t rsa,dsa mc.hyneo.ru:11 >> ~/.ssh/known_hosts
                     ssh -p 11 suro@mc.hyneo.ru
                 '''
                 sh 'cd ./site'
