@@ -33,7 +33,7 @@
                 sh '''
                     [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
                     ssh-keyscan -t rsa,dsa -p 11 mc.hyneo.ru >> ~/.ssh/known_hosts
-                    ssh -p 11 mc.hyneo.ru
+                    ssh -p 11 suro@mc.hyneo.ru
                 '''
                 sh 'cd ./site'
                 sh 'docker compose pull site'
