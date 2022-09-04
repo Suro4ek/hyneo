@@ -10,11 +10,15 @@ import Footer from "~/components/Footer";
 import TLauncherModal from "~/components/TLauncherModal";
 import { getSettingsActive } from "~/models/settings.server";
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({request}) => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
+
     let res = await fetch("https://api.hyneo.ru/online", {
         method: "GET",
+        headers: {
+            "Set-Cookie": request.headers.get("Cookie") || "",
+        },
         credentials: "include",
     });
     const online = await res.json();
@@ -25,7 +29,7 @@ export const loader: LoaderFunction = async () => {
 
     const settings = await getSettingsActive(1);
     return { categories, methods, minecraft, settings};
-  };
+};
 
 export default function Index() {
     useLoaderData();
