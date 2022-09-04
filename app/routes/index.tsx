@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({request}) => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
     let headers = request.headers;
-    headers.set('host', 'api.hyneo.ru');
+    headers.set('Host', 'api.hyneo.ru');
     let res = await fetch("https://api.hyneo.ru/online", {
         method: "GET",
         headers
