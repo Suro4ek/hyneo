@@ -42,12 +42,13 @@ export const action: ActionFunction = async ({
         );
     }
     let apiUrl = process.env.API_URL || "http://localhost:8080/";
+    let headers = request.headers;
+    headers.set('host', 'api.hyneo.ru')
+    headers.set('Authorization', 'Bearer ' + process.env.API_TOKEN)
     if(method.name === "Qiwi"){
         let res = await fetch(apiUrl+"bill/qiwi", {
             method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
-            },
+            headers: headers,
             body: formData
           });
           let data = await res.json();
@@ -61,9 +62,7 @@ export const action: ActionFunction = async ({
     }else if(method.name === "FreeKassa"){
         let res = await fetch(apiUrl+"bill/free_kassa", {
             method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
-            },
+            headers: headers,
             body: formData
           });
           let data = await res.json();
@@ -77,9 +76,7 @@ export const action: ActionFunction = async ({
     }else if(method.name === "GetPay"){
         let res = await fetch(apiUrl+"bill/getpay", {
             method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
-            },
+            headers: headers,
             body: formData
           });
           let data = await res.json();
