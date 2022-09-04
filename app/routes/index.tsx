@@ -19,6 +19,7 @@ export const loader: LoaderFunction = async ({request}) => {
         method: "GET",
         headers
     });
+    console.log(res.status);
     const online = await res.json();
     let minecraft = {online: 100, slots: 100, max: 1000,}
     if(!online.error){
