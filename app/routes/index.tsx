@@ -14,17 +14,16 @@ export const loader: LoaderFunction = async ({request}) => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
     let headers = request.headers;
-    headers.set('host', 'api.hyneo.ru')
+    headers.set('host', 'api.hyneo.ru');
     let res = await fetch("https://api.hyneo.ru/online", {
         method: "GET",
-        headers: headers
+        headers
     });
     const online = await res.json();
     let minecraft = {online: 100, slots: 100, max: 1000,}
     if(!online.error){
         minecraft = {online: online.online, slots: online.slots, max: online.max,}
     }
-
     const settings = await getSettingsActive(1);
     return { categories, methods, minecraft, settings};
 };
