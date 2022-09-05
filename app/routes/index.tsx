@@ -16,6 +16,7 @@ export const loader: LoaderFunction = async ({request}) => {
     let res = await fetch("https://api.hyneo.ru/online", {
         method: "GET"
     });
+    console.log(res.status);
     const online = await res.json();
     let minecraft = {online: 100, slots: 100, max: 1000,}
     if(!online.error){
