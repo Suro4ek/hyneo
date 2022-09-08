@@ -13,10 +13,9 @@ import { getSettingsActive } from "~/models/settings.server";
 export const loader: LoaderFunction = async ({request}) => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
-    let res = await fetch("https://api.hyneo.ru/online", {
+    let res = await fetch("https://api1.hyneo.ru/online", {
         method: "GET"
     });
-    console.log(res.status);
     const online = await res.json();
     let minecraft = {online: 100, slots: 100, max: 1000,}
     if(!online.error){
@@ -38,5 +37,16 @@ export default function Index() {
             <BuyModal />
         </RecoilRoot>
 
+    );
+}
+
+export function ErrorBoundary() {
+    return (
+        <RecoilRoot>
+            <Header />
+            <div className={"text-center text-6xl text-white"}>
+                <h1>Сайт времено не работает попробуйте зайти позже</h1>
+            </div>
+        </RecoilRoot>
     );
 }
