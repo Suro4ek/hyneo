@@ -13,7 +13,7 @@ import { getSettingsActive } from "~/models/settings.server";
 export const loader: LoaderFunction = async ({request}) => {
     const categories = await getCategoriesByItems();
     const methods = await getMethods();
-    let res = await fetch("https://api1.hyneo.ru/online", {
+    let res = await fetch("https://api.hyneo.ru/online", {
         method: "GET"
     });
     const online = await res.json();
